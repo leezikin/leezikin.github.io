@@ -1,0 +1,75 @@
+<html xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <title>less than one</title>
+    <link rel="stylesheet" type="text/css" href="http://unpkg.com/iview/dist/styles/iview.css">
+    <script type="text/javascript" src="http://vuejs.org/js/vue.min.js"></script>
+    <script type="text/javascript" src="http://unpkg.com/iview/dist/iview.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body>
+<div id="app">
+    <div style="margin-left: auto;margin-right: auto;width:868px;">
+        <img v-bind:src="img_url" style="width: 100%"></img>
+        <div class="content">
+            <div style="padding: 25px;">{{text}}</div>
+            <div style="float: right;padding: 25px;">{{post_date}}</div>
+        </div>
+
+    </div>
+</div>
+</body>
+</html>
+
+<style>
+    .content{
+        margin-top: 25px;
+        padding: 10px;
+        width: 100%;
+        background: #eee;
+        height: 120px;
+
+    }
+
+    .content div {
+        display: inline-block;
+        vertical-align: middle;
+        font-size: 20px;
+    }
+</style>
+
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            visible: false,
+            id:4687,
+            item:[],
+            text:'',
+            img_url:'',
+            post_date:'',
+        },
+        mounted(){
+            console.log('mounted');
+            axios.get('http://v3.wufazhuce.com:8000/api/onelist/idlist/?channel=wdj&version=4.0.2&uuid=ffffffff-a90e-706a-63f7-ccf973aae5ee&platform=android').then((res)=>{
+                this.id = res.data.data[0];
+            }).then(
+                ()=>{
+                    axios.get('http://v3.wufazhuce.com:8000/api/onelist/' + this.id + '/0?channel=wdj&version=4.0.2&uuid=ffffffff-a90e-706a-63f7-ccf973aae5ee&platform=android').then((res)=>{
+                        console.log(res.data.data.content_list[0]);
+                        this.item = res.data.data.content_list[0];
+                        this.text = this.item.forward;
+                        this.img_url = this.item.img_url;
+                        this.post_date = new Date(this.item.post_date).toDateString();
+                        console.log(this.post_date.indexOf(' '));
+                        console.log(this.post_date);
+                    })
+                })
+        },
+        methods: {
+            show: function () {
+                this.visible = true;
+            }
+        }
+    })
+</script>
