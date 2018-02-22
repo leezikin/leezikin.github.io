@@ -1,6 +1,7 @@
 <html xmlns:v-bind="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, minimum-scale=1, user-scalable=no" />
     <title>less than one</title>
     <link rel="stylesheet" type="text/css" href="http://unpkg.com/iview/dist/styles/iview.css">
     <script type="text/javascript" src="http://vuejs.org/js/vue.min.js"></script>
@@ -9,33 +10,55 @@
 </head>
 <body>
 <div id="app">
-    <div style="margin-left: auto;margin-right: auto;width:868px;">
+    <div style="margin-left: auto;margin-right: auto;">
         <img v-bind:src="img_url" style="width: 100%"></img>
+
+        <p class="day">{{day}}</p>
+        <p class="month">{{month}}</p>
         <div class="content">
-            <div style="padding: 25px;">{{text}}</div>
-            <div style="float: right;padding: 25px;">{{post_date}}</div>
+            <div>{{text}}</div>
         </div>
 
     </div>
 </div>
+
 </body>
 </html>
 
-<style>
+<style type="text/css">
     .content{
         margin-top: 25px;
         padding: 10px;
         width: 100%;
-        background: #eee;
         height: 120px;
 
     }
 
     .content div {
-        display: inline-block;
-        vertical-align: middle;
-        font-size: 20px;
+        color: black;
+        padding: 0 20px;
+        font-size: 16px;
+        line-height: 26px;
+        margin-top: 14px;
     }
+    .day {
+        margin-top: 30px;
+        font-size: 48px;
+        line-height: 48px;
+        margin-bottom: 0px;
+        text-align: center;
+    }
+    .month {
+        margin-top: 0px;
+        margin-bottom: 10px;
+        font-size: 14px;
+        text-align: center;
+    }
+    p {
+        color: black;
+    }
+
+
 </style>
 
 <script>
@@ -48,6 +71,8 @@
             text:'',
             img_url:'',
             post_date:'',
+            day:'',
+            month:'',
         },
         mounted(){
             console.log('mounted');
@@ -61,8 +86,10 @@
                         this.text = this.item.forward;
                         this.img_url = this.item.img_url;
                         this.post_date = new Date(this.item.post_date).toDateString();
-                        console.log(this.post_date.indexOf(' '));
-                        console.log(this.post_date);
+                        this.post_date = this.post_date.substring(this.post_date.indexOf(' ') + 1);
+                        this.month = this.post_date.substring( 0 ,this.post_date.indexOf(' ')) + ' ' + this.post_date.substring(this.post_date.lastIndexOf(' ') + 1,this.post_date.length);
+                        this.day = this.post_date.substring(this.post_date.indexOf(' ') + 1,this.post_date.lastIndexOf(' '));
+                        //console.log(this.month + this.day);
                     })
                 })
         },
@@ -71,5 +98,7 @@
                 this.visible = true;
             }
         }
-    })
+    });
+
 </script>
+
