@@ -87,7 +87,7 @@
             }).then(
                 ()=>{
                     axios.get('http://v3.wufazhuce.com:8000/api/onelist/' + this.id + '/0?channel=wdj&version=4.0.2&uuid=ffffffff-a90e-706a-63f7-ccf973aae5ee&platform=android').then((res)=>{
-                        console.log(res.data.data.content_list[0]);
+                        //console.log(res.data.data.content_list[0]);
                         this.item = res.data.data.content_list[0];
                         this.text = this.item.forward;
                         this.img_url = this.item.img_url;
