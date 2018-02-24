@@ -18,7 +18,7 @@
         <div class="content">
             <div>{{text}}</div>
         </div>
-        <div style="text-align: center;margin-top: 130px;font-size: 12px;"><p style="color: #cfcfcf">[本站只作API学习用途] 版权所属© <a href="http://wufazhuce.com/">ONE</a></p></div>
+        <div style="text-align: center;margin-top: 130px;font-size: 12px;"><p style="color: #cfcfcf">[本站只作API学习用途] 版权所属 &copy; <a href="http://wufazhuce.com/">ONE</a></p></div>
 
     </div>
 </div>
@@ -77,6 +77,9 @@
             day:'',
             month:'',
         },
+        beforeCreate(){
+            this.$Loading.start();
+        },
         mounted(){
             console.log('mounted');
             axios.get('http://v3.wufazhuce.com:8000/api/onelist/idlist/?channel=wdj&version=4.0.2&uuid=ffffffff-a90e-706a-63f7-ccf973aae5ee&platform=android').then((res)=>{
@@ -93,6 +96,7 @@
                         this.month = this.post_date.substring( 0 ,this.post_date.indexOf(' ')) + ' ' + this.post_date.substring(this.post_date.lastIndexOf(' ') + 1,this.post_date.length);
                         this.day = this.post_date.substring(this.post_date.indexOf(' ') + 1,this.post_date.lastIndexOf(' '));
                         //console.log(this.month + this.day);
+                        this.$Loading.finish();
                     })
                 })
         },
