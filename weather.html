@@ -5,6 +5,7 @@
     <title>less than one</title>
     <link rel="stylesheet" type="text/css" href="http://unpkg.com/iview/dist/styles/iview.css">
     <script type="text/javascript" src="http://vuejs.org/js/vue.min.js"></script>
+    <!--<script src="https://unpkg.com/vue-cookies@1.5.5/vue-cookies.js"></script>-->
     <script type="text/javascript" src="http://unpkg.com/iview/dist/iview.min.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </head>
@@ -12,7 +13,7 @@
 <div id="app">
     <div style="margin-left: auto;margin-right: auto;">
         <!--<img v-bind:src="img_url" style="width: 100%"></img>-->
-<!---->
+        <!---->
         <!--<p class="day">{{day}}</p>-->
         <!--<p class="month">{{month}}</p>-->
         <div class="content">
@@ -81,9 +82,12 @@
                 this.item = res.data.substring(0,res.data.indexOf('<html>'));
                 this.item = JSON.parse(this.item)
                 console.log(this.item.value[0]);
-            })
+                this.$Loading.finish();
+                 document.cookie="username=John Doe";
+             })
             .catch(function (error) {
                     console.log(error);
+                    this.$Loading.error();
                 });
 //        .then(
 
@@ -104,7 +108,14 @@
 //            })
         },
         methods: {
-
+            setCookie: function (cname, cvalue, exdays) {
+                var d = new Date();
+                d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+                var expires = "expires=" + d.toUTCString();
+                console.info(cname + "=" + cvalue + "; " + expires);
+                document.cookie = cname + "=" + cvalue + "; " + expires;
+                console.info(document.cookie);
+            },
         }
     });
 
