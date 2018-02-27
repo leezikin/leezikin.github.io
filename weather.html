@@ -1,0 +1,112 @@
+<html xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, minimum-scale=1, user-scalable=no" />
+    <title>less than one</title>
+    <link rel="stylesheet" type="text/css" href="http://unpkg.com/iview/dist/styles/iview.css">
+    <script type="text/javascript" src="http://vuejs.org/js/vue.min.js"></script>
+    <script type="text/javascript" src="http://unpkg.com/iview/dist/iview.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body>
+<div id="app">
+    <div style="margin-left: auto;margin-right: auto;">
+        <!--<img v-bind:src="img_url" style="width: 100%"></img>-->
+<!---->
+        <!--<p class="day">{{day}}</p>-->
+        <!--<p class="month">{{month}}</p>-->
+        <div class="content">
+            <div></div>
+        <!--</div>-->
+        <!--<div style="text-align: center;margin-top: 130px;font-size: 12px;"><p style="color: #cfcfcf">[本站只作API学习用途] 版权所属 &copy; <a href="http://wufazhuce.com/">ONE</a></p></div>-->
+
+    </div>
+</div>
+
+</body>
+</html>
+
+<style type="text/css">
+    .content{
+        margin-top: 25px;
+        padding: 10px;
+        width: 100%;
+        height: 120px;
+
+    }
+
+    .content div {
+        color: black;
+        padding: 0 20px;
+        font-size: 16px;
+        line-height: 26px;
+        margin-top: 14px;
+        text-align: center;
+        padding-bottom: 100px;
+    }
+    .day {
+        margin-top: 30px;
+        font-size: 48px;
+        line-height: 48px;
+        margin-bottom: 0px;
+        text-align: center;
+    }
+    .month {
+        margin-top: 0px;
+        margin-bottom: 10px;
+        font-size: 14px;
+        text-align: center;
+    }
+    p {
+        color: black;
+    }
+
+
+</style>
+
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            visible: false,
+            city:101240101,
+            item:[],
+        },
+        beforeCreate(){
+            this.$Loading.start();
+        },
+        mounted(){
+            console.log('mounted');
+            axios.get('http://dopamine.cf/api/index.php?city=' + this.city).then((res)=>{
+                this.item = res.data.substring(0,res.data.indexOf('<html>'));
+                this.item = JSON.parse(this.item)
+                console.log(this.item.value[0]);
+            })
+            .catch(function (error) {
+                    console.log(error);
+                });
+//        .then(
+
+//                ()=>{
+//                    axios.get('http://v3.wufazhuce.com:8000/api/onelist/' + this.id + '/0?channel=wdj&version=4.0.2&uuid=ffffffff-a90e-706a-63f7-ccf973aae5ee&platform=android').then((res)=>{
+//                        //console.log(res.data.data.content_list[0]);
+//                        this.item = res.data.data.content_list[0];
+//                        this.text = this.item.forward;
+//                        this.img_url = this.item.img_url;
+//                        this.post_date = new Date(this.item.post_date).toDateString();
+//                        this.post_date = this.post_date.substring(this.post_date.indexOf(' ') + 1);
+//                        this.month = this.post_date.substring( 0 ,this.post_date.indexOf(' ')) + ' ' + this.post_date.substring(this.post_date.lastIndexOf(' ') + 1,this.post_date.length);
+//                        this.day = this.post_date.substring(this.post_date.indexOf(' ') + 1,this.post_date.lastIndexOf(' '));
+//                        //console.log(this.month + this.day);
+//                        this.$Loading.finish();
+//                    }
+//            )
+//            })
+        },
+        methods: {
+
+        }
+    });
+
+</script>
+
