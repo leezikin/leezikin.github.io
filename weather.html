@@ -11,7 +11,27 @@
 </head>
 <body>
 <div id="app">
-    <div style="margin-left: auto;margin-right: auto;">
+    <layout :style="{minHeight: '100vh'}">
+        <sider collapsible :collapsed-width="0" v-model="isCollapsed">
+            <i-menu active-name="1-2" theme="dark" width="auto" :class="menuitemClasses">
+                <menu-item name="1-1">
+                    <icon type="settings"></icon>
+                    <span>设置</span>
+                </menu-item>
+                <menu-item name="1-2">
+                    <icon type="information-circled"></icon>
+                    <span>关于</span>
+                </menu-item>
+            </i-menu>
+        </sider>
+
+    </layout>
+
+
+
+    <!--<div style="margin-left: auto;margin-right: auto;">-->
+
+
         <!--<img v-bind:src="img_url" style="width: 100%"></img>-->
         <!---->
         <!--<p class="day">{{day}}</p>-->
@@ -61,6 +81,36 @@
     p {
         color: black;
     }
+    #app{padding: 32px;}
+    .layout-con{
+        height: 100%;
+        width: 100%;
+    }
+    .menu-item span{
+        display: inline-block;
+        overflow: hidden;
+        width: 69px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        vertical-align: bottom;
+        transition: width .2s ease .2s;
+    }
+    .menu-item i{
+        transform: translateX(0px);
+        transition: font-size .2s ease, transform .2s ease;
+        vertical-align: middle;
+        font-size: 16px;
+    }
+    .collapsed-menu span{
+        width: 0px;
+        transition: width .2s ease;
+    }
+    .collapsed-menu i{
+        transform: translateX(5px);
+        transition: font-size .2s ease .2s, transform .2s ease .2s;
+        vertical-align: middle;
+        font-size: 22px;
+    }
 
 
 </style>
@@ -72,24 +122,31 @@
             visible: false,
             city:101240101,
             item:[],
+            return{
+                isCollapsed: false
+            };
         },
         beforeCreate(){
             this.$Loading.start();
         },
+        computed: {
+            menuitemClasses: function () {
+                return [
+                    'menu-item',
+                    this.isCollapsed ? 'collapsed-menu' : ''
+                ]
+            }
+        },
         mounted(){
-            console.log('mounted');
-            axios.get('http://dopamine.cf/api/index.php?city=' + this.city).then((res)=>{
-                this.item = res.data.substring(0,res.data.indexOf('<html>'));
-                this.item = JSON.parse(this.item)
-                console.log(this.item.value[0]);
+            console.log('mounted=========');
+            if(this.getCookie('currentCity')==""){
+                console.log('未获取过天气');
                 this.$Loading.finish();
-                 document.cookie="city="+this.city;
-                 document.cookie="city="+'123123132';
-             })
-            .catch(function (error) {
-                    console.log(error);
-                    this.$Loading.error();
-                });
+            }
+            else{
+                this.city = this.getCookie('currentCity');
+                this.getWeather(this.city);
+            }
 //        .then(
 
 //                ()=>{
@@ -109,6 +166,30 @@
 //            })
         },
         methods: {
+            getWeather(cityID){
+                axios.get('http://dopamine.cf/api/index.php?city=' + cityID).then((res)=>{
+                    this.item = res.data.substring(0,res.data.indexOf('<html>'));
+                this.item = JSON.parse(this.item)
+                console.log(this.item.value[0]);
+                document.cookie="currentCity="+cityID;
+                this.$Loading.finish();
+            })
+            .catch(function (error) {
+                    console.log(error);
+                    this.$Loading.error();
+                });
+            },
+            getCookie(cname){
+                var name = cname + "=";
+                var ca = document.cookie.split(';');
+                for(var i=0; i<ca.length; i++)
+                {
+                    var c = ca[i].trim();
+                    if (c.indexOf(name)==0) return c.substring(name.length,c.length);
+                }
+                return "";
+            }
+
 //            setCookie: function (cname, cvalue, exdays) {
 //                var d = new Date();
 //                d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
