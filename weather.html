@@ -83,7 +83,8 @@
                 this.item = JSON.parse(this.item)
                 console.log(this.item.value[0]);
                 this.$Loading.finish();
-                 document.cookie="username=John Doe";
+                 document.cookie="city="+this.city;
+                 document.cookie="city="+'123123132';
              })
             .catch(function (error) {
                     console.log(error);
@@ -108,14 +109,14 @@
 //            })
         },
         methods: {
-            setCookie: function (cname, cvalue, exdays) {
-                var d = new Date();
-                d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-                var expires = "expires=" + d.toUTCString();
-                console.info(cname + "=" + cvalue + "; " + expires);
-                document.cookie = cname + "=" + cvalue + "; " + expires;
-                console.info(document.cookie);
-            },
+//            setCookie: function (cname, cvalue, exdays) {
+//                var d = new Date();
+//                d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+//                var expires = "expires=" + d.toUTCString();
+//                console.info(cname + "=" + cvalue + "; " + expires);
+//                document.cookie = cname + "=" + cvalue + "; " + expires;
+//                console.info(document.cookie);
+//            },
         }
     });
 
