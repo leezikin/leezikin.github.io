@@ -1,4 +1,4 @@
-<html xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<html>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, minimum-scale=1, user-scalable=no" />
@@ -52,7 +52,7 @@
             <sider collapsible :collapsed-width="0" v-model="isCollapsed" ref="sider">
                 <i-menu active-name="1-1" theme="dark" width="auto" :class="menuitemClasses" @on-select="menuSelect">
                 <menu-item name="1-1">
-                <Icon type="home"></Icon>
+                <icon type="home"></icon>
                 <span>主页</span>
                 </menu-item>
                 <menu-item name="1-2">
@@ -67,8 +67,14 @@
             </sider>
             <layout v-show="isCollapsed">
                 <i-content :style="{margin: '0 40px 40px',paddingTop:'20px'}">
-                    <div class="cityName">
-                            <p style="font-size: 30px;text-align: center"><Icon style="margin-right: 20px" type="location" size="36"></Icon>广州</p></i-col>
+                    <div class="cityName" style="text-align: center">
+                            <span style="font-size: 30px;"><icon style="margin-right: 20px" type="location" size="36"></icon>广州</span>
+                    </div>
+                    <div class="weatherType">
+                        <p>晴</p>
+                    </div>
+                    <div class="temperature">
+                        <p>46<span>°</span></p>
                     </div>
                 </i-content>
             </layout>
@@ -111,10 +117,27 @@
         transform: translateX(5px);
         transition: font-size .2s ease .2s, transform .2s ease .2s;
         vertical-align: middle;
-        font-size: 22px;
+        font-size: 60px;
     }
     .ivu-layout-sider-zero-width-trigger{
-        top:23px
+        top:25px
+    }
+    .temperature{
+        margin-left: 20px;
+        margin-top: 80px;
+        font-size: 30px;
+        text-align: center;
+    }
+    .temperature p{
+        font-size: 65px;
+    }
+    .temperature span{
+        font-size: 70px;
+    }
+    .weatherType{
+        text-align: center;
+        font-size: 60px;
+        margin-top: 50px;
     }
 
 
@@ -125,7 +148,7 @@
         el: '#app',
         data: {
             visible: false,
-            city:101240101,
+            city:101280101,
             item:[],
             isCollapsed: false,
         },
@@ -142,9 +165,16 @@
         },
         mounted(){
             console.log('mounted=========');
+            //this.getWeather(this.city);
+            this.$refs.sider.toggleCollapse(true);
             if(this.getCookie('currentCity')==""){
-                console.log('未获取过天气');
-                this.$Loading.finish();
+                console.log('没有饼干,获取广州天气');
+                this.$Message.info({
+                    content: '尚未设置城市，默认获取广州天气',
+                    duration: 10,
+                    closable: true
+                });
+                this.getWeather(this.city);
             }
             else{
                 this.city = this.getCookie('currentCity');
@@ -172,10 +202,17 @@
             getWeather(cityID){
                 axios.get('http://dopamine.cf/api/index.php?city=' + cityID).then((res)=>{
                     this.item = res.data.substring(0,res.data.indexOf('<html>'));
-                this.item = JSON.parse(this.item)
-                console.log(this.item.value[0]);
-                document.cookie="currentCity="+cityID;
-                this.$Loading.finish();
+                this.item = JSON.parse(this.item);
+                if(this.item.code == 200){
+                    console.log(this.item.value[0]);
+                    document.cookie="currentCity="+cityID;
+                    this.$Loading.finish();
+                }
+                else{
+                    console.log(this.item.message);
+                    this.$Loading.error();
+                }
+
             })
             .catch(function (error) {
                     console.log(error);
