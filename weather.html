@@ -11,21 +11,18 @@
 </head>
 <body>
 <div id="app">
-    <layout :style="{minHeight: '100vh'}">
-        <sider collapsible :collapsed-width="0" v-model="isCollapsed">
-            <i-menu active-name="1-2" theme="dark" width="auto" :class="menuitemClasses">
-                <menu-item name="1-1">
-                    <icon type="settings"></icon>
-                    <span>设置</span>
-                </menu-item>
-                <menu-item name="1-2">
-                    <icon type="information-circled"></icon>
-                    <span>关于</span>
-                </menu-item>
-            </i-menu>
-        </sider>
-
-    </layout>
+    <sider collapsible :collapsed-width="0" v-model="isCollapsed">
+        <i-menu active-name="1-2" theme="dark" width="auto" :class="menuitemClasses">
+            <menu-item name="1-1">
+                <icon type="settings"></icon>
+                <span>设置</span>
+            </menu-item>
+            <menu-item name="1-2">
+                <icon type="information-circled"></icon>
+                <span>关于</span>
+            </menu-item>
+        </i-menu>
+    </sider>
 
 
 
@@ -109,7 +106,7 @@
         transform: translateX(5px);
         transition: font-size .2s ease .2s, transform .2s ease .2s;
         vertical-align: middle;
-        font-size: 22px;
+        font-size: 20px;
     }
 
 
@@ -122,9 +119,7 @@
             visible: false,
             city:101240101,
             item:[],
-            return{
-                isCollapsed: false
-            };
+            isCollapsed: false,
         },
         beforeCreate(){
             this.$Loading.start();
