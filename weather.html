@@ -35,14 +35,25 @@
             <layout v-show="isCollapsed">
                 <i-content :style="{margin: '0 40px 40px',paddingTop:'20px'}">
                     <div class="cityName" style="text-align: center">
-                            <span style="font-size: 25px;"><icon style="margin-right: 20px" type="location" size="32"></icon>广州</span>
+                            <span style="font-size: 21px;"><icon style="margin-right: 16px" type="location" size="32"></icon>广州</span>
                     </div>
                     <div class="weatherType">
                         <p>晴</p>
                     </div>
-                    <div class="date"></div>
-                    <div class="temperature">
-                        <p>46<span>°</span></p>
+                    <div class="content">
+                        <row type="flex" justify="center" class="contentRow">
+                            <i-col style="float: right;margin-right: 25px;margin-top: 10px">
+                                <p style="font-size: 24px">Thur</p>
+                                <p style="font-size: 20px">Mar.1</p>
+                            </i-col>
+                            <i-col><span style="font-size: 30px;line-height: 80px;margin: 0 20px">  |  </span></i-col>
+                            <i-col >
+                                <span>46<span>°</span></span>
+                            </i-col>
+                        </row>
+                        <div><span style="color: #ccc;font-size: 12px;">最后更新于6:30</span></div>
+                        <div style="width: 95%;background-color: black;height: 2px;margin: 20px auto" ></div>
+
                     </div>
                 </i-content>
             </layout>
@@ -90,22 +101,25 @@
     .ivu-layout-sider-zero-width-trigger{
         top:25px
     }
-    .temperature{
+    .content{
         margin-left: 20px;
-        margin-top: 80px;
+        margin-top: 60px;
         font-size: 30px;
         text-align: center;
     }
-    .temperature p{
+    .content p{
         font-size: 55px;
     }
-    .temperature span{
+    .content span{
         font-size: 60px;
     }
     .weatherType{
         text-align: center;
         font-size: 50px;
         margin-top: 50px;
+    }
+    .layout{
+
     }
 
 
@@ -133,7 +147,6 @@
         },
         mounted(){
             console.log('mounted=========');
-            //this.getWeather(this.city);
             this.$refs.sider.toggleCollapse(true);
             if(this.getCookie('currentCity')==""){
                 console.log('没有饼干,获取广州天气');
@@ -142,11 +155,13 @@
                     duration: 10,
                     closable: true
                 });
-                this.getWeather(this.city);
+//                this.getWeather(this.city);
+                this.$Loading.error();
             }
             else{
                 this.city = this.getCookie('currentCity');
-                this.getWeather(this.city);
+//                this.getWeather(this.city);
+                this.$Loading.error();
             }
 //        .then(
 
