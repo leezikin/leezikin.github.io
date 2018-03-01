@@ -35,30 +35,30 @@
             <layout v-show="isCollapsed">
                 <i-content :style="{margin: '0 40px 40px',paddingTop:'20px'}">
                     <div class="cityName" style="text-align: center">
-                            <span style="font-size: 21px;"><icon style="margin-right: 16px" type="location" size="32"></icon>广州</span>
+                            <span style="font-size: 21px;"><icon style="margin-right: 16px" type="location" size="32"></icon>{{cityName}}</span>
                     </div>
                     <div class="weatherType">
-                        <p>晴</p>
+                        <p>{{realWeatherType}}</p>
                     </div>
                     <div class="content">
                         <row type="flex" justify="center" class="contentRow">
                             <i-col style="float: right;margin-right: 25px;margin-top: 10px">
-                                <p style="font-size: 24px">Thur</p>
-                                <p style="font-size: 20px">Mar.1</p>
+                                <p style="font-size: 26px">{{day}}</p>
+                                <p style="font-size: 22px">{{date}}</p>
                             </i-col>
                             <i-col><span style="font-size: 30px;line-height: 80px;margin: 0 20px">  |  </span></i-col>
                             <i-col >
-                                <span>46<span>°</span></span>
+                                <span>{{realTem}}<span>°</span></span>
                             </i-col>
                         </row>
-                        <div><span style="color: #ccc;font-size: 12px;">最后更新于6:30</span></div>
+                        <div><span style="color: #ccc;font-size: 12px;">最后更新于{{publishTime}}</span></div>
                     </div>
                         <div style="width: 95%;background-color: black;height: 2px;margin: 20px auto" ></div>
                         <div class="weather3Hours">
                             <row type="flex" justify="center" class="code-row-bg" style="text-align: center" >
-                                <i-col style="width: 28%"><span style="font-size: 18px">12时</span><div class="photo" style="font-size: 28px">晴</div><span style="font-size: 25px">46°</span><br></i-col>
-                                <i-col style="width: 28%"><span style="font-size: 18px">15时</span><div class="photo" style="font-size: 28px">晴</div><span style="font-size: 25px">46°</span><br></i-col>
-                                <i-col style="width: 28%"><span style="font-size: 18px">18时</span><div class="photo" style="font-size: 28px">晴</div><span style="font-size: 25px">46°</span><br></i-col>
+                                <i-col style="width: 28%"><span style="font-size: 18px">{{Hours[0].Time}}时</span><div class="photo" style="font-size: 28px">{{Hours[0].WeatherType}}</div><span style="font-size: 25px">{{Hours[0].Temperature}}°</span><br></i-col>
+                                <i-col style="width: 28%"><span style="font-size: 18px">{{Hours[1].Time}}时</span><div class="photo" style="font-size: 28px">{{Hours[1].WeatherType}}</div><span style="font-size: 25px">{{Hours[1].Temperature}}</span><br></i-col>
+                                <i-col style="width: 28%"><span style="font-size: 18px">{{Hours[2].Time}}时</span><div class="photo" style="font-size: 28px">{{Hours[2].WeatherType}}</div><span style="font-size: 25px">{{Hours[2].Temperature}}</span><br></i-col>
                             </row>
                         </div>
 
@@ -134,13 +134,38 @@
 </style>
 
 <script>
-    new Vue({
+    var ha = new Vue({
         el: '#app',
         data: {
             visible: false,
             city:101280101,
             item:[],
             isCollapsed: false,
+            cityName:'',
+            realWeatherType:'',
+            realTem:'',
+            day:'',
+            date:'',
+            publishTime:'',
+            Hours:[
+                {
+                    Time:'',
+                    WeatherType:'',
+                    Temperature:'',
+                },
+                {
+                    Time:'',
+                    WeatherType:'',
+                    Temperature:'',
+                },
+                {
+                    Time:'',
+                    WeatherType:'',
+                    Temperature:'',
+                }
+            ]
+
+
         },
         beforeCreate(){
             this.$Loading.start();
@@ -164,12 +189,10 @@
                     closable: true
                 });
                 this.getWeather(this.city);
-                this.$Loading.error();
             }
             else {
                 this.city = this.getCookie('currentCity');
 //                this.getWeather(this.city);
-                this.$Loading.error();
             }
         },
         methods: {
@@ -180,18 +203,35 @@
                 if(this.item.code == 200){
                     console.log(this.item.value[0]);
                     document.cookie="currentCity="+cityID;
+                    this.cityName = this.item.value[0].city;
+                    this.realWeatherType = this.item.value[0].realtime.weather;
+                    this.realTem = this.item.value[0].realtime.sendibleTemp;
+                    var date = new Date() + '';
+                    this.day = date.substring(0,3);
+                    this.date = date.substring(4,7) + '.' + date.substring(8,11);
+                    var temp = this.item.value[0].weatherDetailsInfo.publishTime;
+                    this.publishTime = temp.substring(temp.length-8,temp.length-3);
+                    this.get3HoursWeather(this.item.value[0].weatherDetailsInfo.weather3HoursDetailsInfos)
                     this.$Loading.finish();
                 }
                 else{
-                    console.log(this.item.message);
                     this.$Loading.error();
+                    console.log(this.item.message);
+
                 }
 
             })
             .catch(function (error) {
                     console.log(error);
-                    this.$Loading.error();
+                    ha.$Loading.error();
                 });
+            },
+            get3HoursWeather(array){
+                for(var i = 0;i<array.length;i++){
+                    this.Hours[i].Time = array[i].startTime.substring(array[0].startTime.length-8,array[0].startTime.length-6);
+                    this.Hours[i].Temperature = array[i].highestTemperature;
+                    this.Hours[i].WeatherType = array[i].weather;
+                }
             },
             getCookie(cname){
                 var name = cname + "=";
