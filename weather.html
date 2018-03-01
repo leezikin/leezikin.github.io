@@ -52,9 +52,17 @@
                             </i-col>
                         </row>
                         <div><span style="color: #ccc;font-size: 12px;">最后更新于6:30</span></div>
-                        <div style="width: 95%;background-color: black;height: 2px;margin: 20px auto" ></div>
-
                     </div>
+                        <div style="width: 95%;background-color: black;height: 2px;margin: 20px auto" ></div>
+                        <div class="weather3Hours">
+                            <row type="flex" justify="center" class="code-row-bg" style="text-align: center" >
+                                <i-col style="width: 28%"><span style="font-size: 18px">12时</span><div class="photo" style="font-size: 28px">晴</div><span style="font-size: 25px">46°</span><br></i-col>
+                                <i-col style="width: 28%"><span style="font-size: 18px">15时</span><div class="photo" style="font-size: 28px">晴</div><span style="font-size: 25px">46°</span><br></i-col>
+                                <i-col style="width: 28%"><span style="font-size: 18px">18时</span><div class="photo" style="font-size: 28px">晴</div><span style="font-size: 25px">46°</span><br></i-col>
+                            </row>
+                        </div>
+
+
                 </i-content>
             </layout>
         </layout>
@@ -148,38 +156,21 @@
         mounted(){
             console.log('mounted=========');
             this.$refs.sider.toggleCollapse(true);
-            if(this.getCookie('currentCity')==""){
+            if (this.getCookie('currentCity') == "") {
                 console.log('没有饼干,获取广州天气');
                 this.$Message.info({
                     content: '尚未设置城市，默认获取广州天气',
                     duration: 10,
                     closable: true
                 });
-//                this.getWeather(this.city);
+                this.getWeather(this.city);
                 this.$Loading.error();
             }
-            else{
+            else {
                 this.city = this.getCookie('currentCity');
 //                this.getWeather(this.city);
                 this.$Loading.error();
             }
-//        .then(
-
-//                ()=>{
-//                    axios.get('http://v3.wufazhuce.com:8000/api/onelist/' + this.id + '/0?channel=wdj&version=4.0.2&uuid=ffffffff-a90e-706a-63f7-ccf973aae5ee&platform=android').then((res)=>{
-//                        //console.log(res.data.data.content_list[0]);
-//                        this.item = res.data.data.content_list[0];
-//                        this.text = this.item.forward;
-//                        this.img_url = this.item.img_url;
-//                        this.post_date = new Date(this.item.post_date).toDateString();
-//                        this.post_date = this.post_date.substring(this.post_date.indexOf(' ') + 1);
-//                        this.month = this.post_date.substring( 0 ,this.post_date.indexOf(' ')) + ' ' + this.post_date.substring(this.post_date.lastIndexOf(' ') + 1,this.post_date.length);
-//                        this.day = this.post_date.substring(this.post_date.indexOf(' ') + 1,this.post_date.lastIndexOf(' '));
-//                        //console.log(this.month + this.day);
-//                        this.$Loading.finish();
-//                    }
-//            )
-//            })
         },
         methods: {
             getWeather(cityID){
