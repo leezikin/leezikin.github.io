@@ -56,8 +56,8 @@
                         <div class="weather3Hours">
                             <row type="flex" justify="center" class="code-row-bg" style="text-align: center" >
                                 <i-col style="width: 28%"><span style="font-size: 18px">{{Hours[0].Time}}时</span><div class="photo" style="font-size: 28px">{{Hours[0].WeatherType}}</div><span style="font-size: 25px">{{Hours[0].Temperature}}°</span><br></i-col>
-                                <i-col style="width: 28%"><span style="font-size: 18px">{{Hours[1].Time}}时</span><div class="photo" style="font-size: 28px">{{Hours[1].WeatherType}}</div><span style="font-size: 25px">{{Hours[1].Temperature}}</span><br></i-col>
-                                <i-col style="width: 28%"><span style="font-size: 18px">{{Hours[2].Time}}时</span><div class="photo" style="font-size: 28px">{{Hours[2].WeatherType}}</div><span style="font-size: 25px">{{Hours[2].Temperature}}</span><br></i-col>
+                                <i-col style="width: 28%"><span style="font-size: 18px">{{Hours[1].Time}}时</span><div class="photo" style="font-size: 28px">{{Hours[1].WeatherType}}</div><span style="font-size: 25px">{{Hours[1].Temperature}}°</span><br></i-col>
+                                <i-col style="width: 28%"><span style="font-size: 18px">{{Hours[2].Time}}时</span><div class="photo" style="font-size: 28px">{{Hours[2].WeatherType}}</div><span style="font-size: 25px">{{Hours[2].Temperature}}°</span><br></i-col>
                             </row>
                         </div>
 
@@ -84,11 +84,10 @@
                 <i-content :style="{margin: '0 40px 40px',paddingTop:'20px'}">
                     <br><br>
                     <span style="font-size: 20px">设置城市:</span><br>
-                    <i-select v-model="cityModel" filterable style="width: 250px">
-                    <i-option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</i-option>
-                    </i-select>
-                    <br>
-                    <!--<button>更新</button>-->
+                    <i-select v-model="cityModel" filterable style="width: 250px;margin-top: 15px">
+                    <i-option v-for="item in cityList" :value="item.cityid" :key="item.cityid">{{ item.city }}</i-option>
+                    </i-select><br>
+                    <i-button style="margin-top: 15px" type="primary" @click="setCity" :loading="loading">完成</i-button>
                 </i-content>
             </layout>
         </layout>
@@ -196,6 +195,7 @@
             show:'1-1',
             cityList: [],
             cityModel:'',
+            loading:false,
 
 
         },
@@ -211,20 +211,20 @@
             }
         },
         mounted(){
-            console.log('mounted=========');
+            //console.log('mounted=========');
             this.$refs.sider.toggleCollapse(true);
             if (this.getCookie('currentCity') == "") {
-                console.log('没有饼干,获取广州天气');
+                //console.log('没有饼干,获取广州天气');
                 this.$Message.info({
                     content: '尚未设置城市，默认获取广州天气',
                     duration: 10,
                     closable: true
                 });
-               // this.getWeather(this.city);
+                this.getWeather(this.city);
             }
             else {
                 this.city = this.getCookie('currentCity');
-               // this.getWeather(this.city);
+                this.getWeather(this.city);
             }
         },
         methods: {
@@ -233,7 +233,7 @@
                     this.item = res.data.substring(0,res.data.indexOf('<html>'));
                 this.item = JSON.parse(this.item);
                 if(this.item.code == 200){
-                    console.log(this.item.value[0]);
+                    //console.log(this.item.value[0]);
                     document.cookie="currentCity="+cityID;
                     this.cityName = this.item.value[0].city;
                     this.realWeatherType = this.item.value[0].realtime.weather;
@@ -247,20 +247,20 @@
                     this.$Loading.finish();
                 }
                 else{
-                    this.$Message.info({
+                    this.$Message.error({
                         content: this.item.message + this.item.code,
                         duration: 10,
                         closable: true
                     });
                     this.$Loading.error();
-                    console.log(this.item.message);
+                    //console.log(this.item.message);
 
                 }
 
             })
             .catch(function (error) {
-                    console.log(error);
-                    ha.$Message.info({
+                    //console.log(error);
+                    ha.$Message.error({
                         content: error,
                         duration: 10,
                         closable: true
@@ -288,26 +288,46 @@
             menuSelect(name){
                 this.show = name;
                 if(name == '1-2' && this.cityList.length == 0){
-                    console.log('获取城市列表');
+                    //console.log('获取城市列表');
                     this.getCityList();
                 }
                 this.$refs.sider.toggleCollapse(true);
             },
             getCityList(){
+                this.$Loading.start();
                 axios.get('./city.json').then((res)=>{
-                    console.log(res);
+                    if(res.status == 200){
+                        this.cityList = res.data.cities;
+                        this.cityModel = this.city;
+                        this.$Loading.finish();
+                    }
+                    else{
+                        this.$Message.error({
+                            content: '发生未知的错误',
+                            duration: 10,
+                            closable: true
+                        });
+                        this.$Loading.error();
+                    }
+
+                }).catch(function (error) {
+                    //console.log(error);
+                    ha.$Message.error({
+                        content: error,
+                        duration: 10,
+                        closable: true
+                    });
+                    ha.$Loading.error();
+                });
+            },
+            setCity(){
+                this.loading = true;
+                this.city = this.cityModel;
+                getWeather(this.city).then(()=>{
+                    this.loading = false;
                 })
+
             }
-
-
-//            setCookie: function (cname, cvalue, exdays) {
-//                var d = new Date();
-//                d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-//                var expires = "expires=" + d.toUTCString();
-//                console.info(cname + "=" + cvalue + "; " + expires);
-//                document.cookie = cname + "=" + cvalue + "; " + expires;
-//                console.info(document.cookie);
-//            },
         }
     });
 
