@@ -322,11 +322,9 @@
             },
             setCity(){
                 this.$Loading.start();
-                this.loading = true;
+//                this.loading = true;
                 this.city = this.cityModel;
-                this.getWeather(this.city).then(()=>{
-                    this.loading = false;
-                })
+                this.getWeather(this.city);
 
             }
         }
