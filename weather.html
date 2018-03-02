@@ -2,7 +2,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, minimum-scale=1, user-scalable=no" />
-    <title>less than one</title>
+    <title>Today's weahter</title>
     <link rel="stylesheet" type="text/css" href="http://unpkg.com/iview/dist/styles/iview.css">
     <script type="text/javascript" src="http://vuejs.org/js/vue.min.js"></script>
     <script type="text/javascript" src="http://unpkg.com/iview/dist/iview.min.js"></script>
@@ -147,23 +147,7 @@
             day:'',
             date:'',
             publishTime:'',
-            Hours:[
-                {
-                    Time:'',
-                    WeatherType:'',
-                    Temperature:'',
-                },
-                {
-                    Time:'',
-                    WeatherType:'',
-                    Temperature:'',
-                },
-                {
-                    Time:'',
-                    WeatherType:'',
-                    Temperature:'',
-                }
-            ]
+            Hours:[],
 
 
         },
@@ -205,7 +189,7 @@
                     document.cookie="currentCity="+cityID;
                     this.cityName = this.item.value[0].city;
                     this.realWeatherType = this.item.value[0].realtime.weather;
-                    this.realTem = this.item.value[0].realtime.sendibleTemp;
+                    this.realTem = this.item.value[0].realtime.temp;
                     var date = new Date() + '';
                     this.day = date.substring(0,3);
                     this.date = date.substring(4,7) + '.' + date.substring(8,11);
