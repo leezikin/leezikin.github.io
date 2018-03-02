@@ -192,7 +192,7 @@
             }
             else {
                 this.city = this.getCookie('currentCity');
-//                this.getWeather(this.city);
+                this.getWeather(this.city);
             }
         },
         methods: {
@@ -215,6 +215,11 @@
                     this.$Loading.finish();
                 }
                 else{
+                    this.$Message.info({
+                        content: this.item.message + this.item.code,
+                        duration: 10,
+                        closable: true
+                    });
                     this.$Loading.error();
                     console.log(this.item.message);
 
@@ -223,6 +228,11 @@
             })
             .catch(function (error) {
                     console.log(error);
+                    this.$Message.info({
+                        content: error,
+                        duration: 10,
+                        closable: true
+                    });
                     ha.$Loading.error();
                 });
             },
