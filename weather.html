@@ -32,7 +32,7 @@
 
 
             </sider>
-            <layout v-show="isCollapsed">
+            <layout v-show="isCollapsed && show == '1-1'">
                 <i-content :style="{margin: '0 40px 40px',paddingTop:'20px'}">
                     <div class="cityName" style="text-align: center">
                             <span style="font-size: 21px;"><icon style="margin-right: 16px" type="location" size="32"></icon>{{cityName}}</span>
@@ -46,7 +46,7 @@
                                 <p style="font-size: 26px">{{day}}</p>
                                 <p style="font-size: 22px">{{date}}</p>
                             </i-col>
-                            <i-col><span style="font-size: 30px;line-height: 80px;margin: 0 20px">  |  </span></i-col>
+                            <i-col><span style="font-size: 30px;line-height: 80px;margin-right:20px;">|</span></i-col>
                             <i-col >
                                 <span>{{realTem}}<span>°</span></span>
                             </i-col>
@@ -63,6 +63,22 @@
                         </div>
 
 
+                </i-content>
+            </layout>
+            <layout v-show="isCollapsed && show == '1-3'">
+                <i-content :style="{margin: '0 40px 40px',paddingTop:'20px'}">
+                    <div class="aboutMe" style="text-align: center">
+                        <img style="width:120px" src="https://avatars3.githubusercontent.com/u/24774313"/><br>
+                        <span @click="">@leezikin</span>
+                        <div style="width: 40%;margin: auto;margin-top: 30px">
+                            本站所使用的API从网络获取。获取与使用行为或有侵犯产品权益的嫌疑。若被告知需停止使用，本人将及时删除此页面。
+                        </div>
+                        <row type="flex" justify="center">
+                            <i-col span="12" style="width: 200px;margin-top: 30px"><a href="https://github.com/leezikin/leezikin.github.io">GitHub</a></i-col>
+                            <i-col span="12" style="width: 200px;margin-top: 30px"><a href="mailto:admin@maoa-l.xyz">Email</a></i-col>
+                        </row>
+
+                    </div>
                 </i-content>
             </layout>
         </layout>
@@ -129,6 +145,9 @@
     .layout{
 
     }
+    .aboutMe{
+        margin-top: 50px;
+    }
 
 
 </style>
@@ -164,6 +183,7 @@
                     Temperature:'',
                 }
             ],
+            show:'1-1',
 
 
         },
@@ -188,11 +208,11 @@
                     duration: 10,
                     closable: true
                 });
-                this.getWeather(this.city);
+               // this.getWeather(this.city);
             }
             else {
                 this.city = this.getCookie('currentCity');
-                this.getWeather(this.city);
+               // this.getWeather(this.city);
             }
         },
         methods: {
@@ -254,7 +274,7 @@
                 return "";
             },
             menuSelect(name){
-                console.log(name);
+                this.show = name;
                 this.$refs.sider.toggleCollapse(true);
             }
 
