@@ -147,7 +147,23 @@
             day:'',
             date:'',
             publishTime:'',
-            Hours:[],
+            Hours:[
+                {
+                    Time:'',
+                    WeatherType:'',
+                    Temperature:'',
+                },
+                {
+                    Time:'',
+                    WeatherType:'',
+                    Temperature:'',
+                },
+                {
+                    Time:'',
+                    WeatherType:'',
+                    Temperature:'',
+                }
+            ],
 
 
         },
@@ -221,7 +237,7 @@
                 });
             },
             get3HoursWeather(array){
-                for(var i = 0;i<array.length;i++){
+                for(var i = 0;i<this.Hours.length;i++){
                     this.Hours[i].Time = array[i].startTime.substring(array[0].startTime.length-8,array[0].startTime.length-6);
                     this.Hours[i].Temperature = array[i].highestTemperature;
                     this.Hours[i].WeatherType = array[i].weather;
