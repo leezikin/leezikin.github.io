@@ -27,7 +27,6 @@
                 <icon type="information-circled"></icon>
                 <span>关于</span>
                 </menu-item>
-                <!--<p style="position: absolute;text-align: center">@lokey</p>-->
                 </i-menu>
 
 
@@ -79,6 +78,17 @@
                         </row>
 
                     </div>
+                </i-content>
+            </layout>
+            <layout v-show="isCollapsed && show == '1-2'">
+                <i-content :style="{margin: '0 40px 40px',paddingTop:'20px'}">
+                    <br><br>
+                    <span style="font-size: 20px">设置城市:</span><br>
+                    <i-select v-model="cityModel" filterable style="width: 250px">
+                    <i-option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</i-option>
+                    </i-select>
+                    <br>
+                    <!--<button>更新</button>-->
                 </i-content>
             </layout>
         </layout>
@@ -184,6 +194,8 @@
                 }
             ],
             show:'1-1',
+            cityList: [],
+            cityModel:'',
 
 
         },
@@ -275,8 +287,18 @@
             },
             menuSelect(name){
                 this.show = name;
+                if(name == '1-2' && this.cityList.length == 0){
+                    console.log('获取城市列表');
+                    this.getCityList();
+                }
                 this.$refs.sider.toggleCollapse(true);
+            },
+            getCityList(){
+                axios.get('./city.json').then((res)=>{
+                    console.log(res);
+                })
             }
+
 
 //            setCookie: function (cname, cvalue, exdays) {
 //                var d = new Date();
