@@ -34,7 +34,7 @@
             <layout v-show="isCollapsed && show == '1-1'">
                 <i-content :style="{margin: '0 40px 40px',paddingTop:'20px'}">
                     <div class="cityName" style="text-align: center">
-                            <span style="font-size: 21px;"><icon style="margin-right: 16px" type="location" size="32"></icon>{{cityName}}</span>
+                            <span style="font-size: 21px;margin-left:-30px"><icon style="margin-right: 16px" type="location" size="32"></icon>{{cityName}}</span>
                     </div>
                     <div class="weatherType">
                         <p>{{realWeatherType}}</p>
@@ -52,7 +52,7 @@
                         </row>
                         <div><span style="color: #ccc;font-size: 12px;">最后更新于{{publishTime}}</span></div>
                     </div>
-                        <div style="width: 95%;background-color: black;height: 2px;margin: 20px auto" ></div>
+                        <div style="width: 95%;background-color:#495060;height: 2px;margin: 20px auto" ></div>
                         <div class="weather3Hours">
                             <row type="flex" justify="center" class="code-row-bg" style="text-align: center" >
                                 <i-col style="width: 28%"><span style="font-size: 18px">{{Hours[0].Time}}时</span><div class="photo" style="font-size: 28px">{{Hours[0].WeatherType}}</div><span style="font-size: 25px">{{Hours[0].Temperature}}°</span><br></i-col>
@@ -196,7 +196,7 @@
             cityList: [],
             cityModel:'',
             loading:false,
-
+            interval:null,
 
         },
         beforeCreate(){
@@ -234,7 +234,7 @@
                 this.item = JSON.parse(this.item);
                 if(this.item.code == 200){
                     //console.log(this.item.value[0]);
-                    document.cookie="currentCity="+cityID;
+                    document.cookie="currentCity="+cityID + ";expires=" + new Date().getTime() + 60 * 60 * 24 * 1000 * 365;
                     this.cityName = this.item.value[0].city;
                     this.realWeatherType = this.item.value[0].realtime.weather;
                     this.realTem = this.item.value[0].realtime.temp;
@@ -244,6 +244,7 @@
                     var temp = this.item.value[0].weatherDetailsInfo.publishTime;
                     this.publishTime = temp.substring(temp.length-8,temp.length-3);
                     this.get3HoursWeather(this.item.value[0].weatherDetailsInfo.weather3HoursDetailsInfos)
+                    this.loading = false;
                     this.$Loading.finish();
                 }
                 else{
@@ -322,11 +323,19 @@
             },
             setCity(){
                 this.$Loading.start();
-//                this.loading = true;
+                this.loading = true;
                 this.city = this.cityModel;
                 this.getWeather(this.city);
+                this.interval = window.setInterval("canShowMes()","100");
 
+            },
+            canShowMes(){
+                if(this.loading == false){
+                    this.$Message.success('This is a success tip');
+                    window.clearInterval(this.interval);
+                }
             }
+
         }
     });
 

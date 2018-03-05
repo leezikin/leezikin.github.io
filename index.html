@@ -59,11 +59,13 @@
                     </card>
                 </i-col>
                 <i-col class="projectCell" span="6">
-                    <card style="margin-left: auto;margin-right: auto">
+                    <card style="margin-left: auto;margin-right: auto" @click.native="toWeather>
                         <div class="cardView">
-                            <div class="photo"></div>
+                            <div class="photo">
+                                <img src = "img/weather.jpg">
+                            </div>
                             <p>
-                                Example
+                                SimpleWeather，简易的网页天气
                             </p>
                         </div>
                     </card>
@@ -115,6 +117,9 @@
             },
             toAbout(){
                 this.$Message.info('//PASS');
+            },
+            toWeather(){
+                window.location.href="./weather.html";
             }
         }
     })
@@ -161,9 +166,8 @@
         background: #fff;height:170px
     }
     .photo img{
-        width: 80%;
-        margin-left:auto;
-        margin-right: auto;
+        width: 86%;
+        margin-left: 7%;
     }
 
     .projectCell{
