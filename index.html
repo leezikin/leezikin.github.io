@@ -71,7 +71,14 @@
                     </card>
                 </i-col>
                 <i-col class="projectCell" span="6">
-                    <card>                 <div class="cardView">                     <div class="photo"></div>                     <p>                         Example                     </p>                 </div>             </card>
+                    <card style="margin-left: auto;margin-right: auto" @click.native="toWeibo2RSS">
+                        <div class="cardView">
+                            <div class="photo">
+                                <img src="img/weibo2rss.jpg">
+                            </div>
+                            <p>
+                                Weibo2RSS|fork from <a href="https://github.com/DIYgod/Weibo2RSS">@DIYGOD</a>
+                            </p>                 </div>             </card>
                 </i-col>
                 <i-col class="projectCell" span="6">
                     <card>                 <div class="cardView">                     <div class="photo"></div>                     <p>                         Example                     </p>                 </div>             </card>
@@ -94,7 +101,7 @@
             </row>
 
         </div>
-        <div style="text-align: center;margin-top: 130px;font-size: 12px;">2017-2018 &copy; Leezikin</div>
+        <div style="text-align: center;margin-top: 130px;font-size: 12px;">2017-2018 &copy; <span class="author">Leezikin</span></div>
     </div>
 
 
@@ -106,11 +113,11 @@
     var app = new Vue({
         el: '#app',
         data: {
-            message: 'Hello Vue!'
+            message: ''
         },
         methods:{
             toGithub(){
-                //window.location.href="https://github.com/leezikin"
+                window.location.href="https://github.com/leezikin"
             },
             toOne(){
                 window.location.href="./hi.html";
@@ -120,6 +127,9 @@
             },
             toWeather(){
                 window.location.href="./weather.html";
+            },
+            toWeibo2RSS(){
+                window.location.href="http://weibo2rss-rss-builder.a3c1.starter-us-west-1.openshiftapps.com/";
             }
         }
     })
@@ -169,7 +179,11 @@
         width: 86%;
         margin-left: 7%;
     }
+    .author:hover{
+        text-decoration: line-through;
+        margin-left: 150px;
 
+    }
     .projectCell{
         width: 270px;
         margin-top: 16px;
