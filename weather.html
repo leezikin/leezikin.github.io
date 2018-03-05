@@ -234,7 +234,9 @@
                 this.item = JSON.parse(this.item);
                 if(this.item.code == 200){
                     //console.log(this.item.value[0]);
-                    document.cookie="currentCity="+cityID + ";expires=" + new Date().getTime() + 60 * 60 * 24 * 1000 * 365;
+                    var exp = new Date();
+                    exp.setTime(exp.getTime() + 365*24*60*60*1000);
+                    document.cookie="currentCity="+cityID + ";expires=" + exp.toGMTString();
                     this.cityName = this.item.value[0].city;
                     this.realWeatherType = this.item.value[0].realtime.weather;
                     this.realTem = this.item.value[0].realtime.temp;
@@ -326,7 +328,7 @@
                 this.loading = true;
                 this.city = this.cityModel;
                 this.getWeather(this.city);
-                this.interval = window.setInterval("canShowMes()","100");
+                this.interval = window.setInterval("this.canShowMes()","100");
 
             },
             canShowMes(){
