@@ -328,16 +328,7 @@
                 this.loading = true;
                 this.city = this.cityModel;
                 this.getWeather(this.city);
-                this.interval = window.setInterval("this.canShowMes()","100");
-
             },
-            canShowMes(){
-                if(this.loading == false){
-                    this.$Message.success('This is a success tip');
-                    window.clearInterval(this.interval);
-                }
-            }
-
         }
     });
 
