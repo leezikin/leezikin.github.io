@@ -326,6 +326,9 @@
             setCity(){
                 this.$Loading.start();
                 this.loading = true;
+                if(this.city == this.cityModel){
+                    return;
+                }
                 this.city = this.cityModel;
                 this.getWeather(this.city);
             },
