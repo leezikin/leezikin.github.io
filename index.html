@@ -81,7 +81,14 @@
                             </p>                 </div>             </card>
                 </i-col>
                 <i-col class="projectCell" span="6">
-                    <card>                 <div class="cardView">                     <div class="photo"></div>                     <p>                         Example                     </p>                 </div>             </card>
+                    <card style="margin-left: auto;margin-right: auto" @click.native="toZOE">
+                        <div class="cardView">
+                            <div class="photo">
+                                <img src="img/zoe.jpg">
+                            </div>
+                            <p>
+                                佐伊最好玩。
+                            </p>                 </div>             </card>
                 </i-col>
                 <i-col class="projectCell" span="6">
                     <card>                 <div class="cardView">                     <div class="photo"></div>                     <p>                         Example                     </p>                 </div>             </card>
@@ -130,6 +137,9 @@
             },
             toWeibo2RSS(){
                 window.location.href="http://weibo2rss-rss-builder.a3c1.starter-us-west-1.openshiftapps.com/";
+            },
+            toZOE(){
+                window.location.href="http://zoe.maoa-l.xyz/";
             }
         }
     })
