@@ -159,7 +159,7 @@
         margin-top: 50px;
     }
     .hoursW{
-        font-size: 60px;
+        font-size: 43px;
     }
 
 
@@ -203,7 +203,9 @@
             interval:null,
             weatherIcon:'',
             weatherIconList : {
-                '阴':'ios-partlysunny',
+                '阴':'ios-cloudy',
+                '多云':'ios-partlysunny',
+                '少云':'ios-partlysunny',
                 '雷阵雨' : 'ios-thunderstorm',
                 '晴':'ios-sunny',
                 '雨':'ios-rainy'
@@ -251,7 +253,8 @@
                     this.cityName = this.item.value[0].city;
 
                     if(this.weatherIconList[this.item.value[0].realtime.weather] != null){
-                        this.weatherIcon = this.weatherIconList[this.item.value[0].realtime.weather]
+                        this.weatherIcon = this.weatherIconList[this.item.value[0].realtime.weather];
+                        this.realWeatherType = '';
                     }
                     else{
                         this.realWeatherType = this.item.value[0].realtime.weather;
@@ -295,6 +298,7 @@
                     this.Hours[i].Temperature = array[i].highestTemperature;
                     if(this.weatherIconList[array[i].weather] != null){
                         this.hoursWeatherIcon[i] = this.weatherIconList[array[i].weather];
+                        this.Hours[i].WeatherType = '';
                     }
                     else{
                         this.Hours[i].WeatherType = array[i].weather;
