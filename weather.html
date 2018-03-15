@@ -34,9 +34,10 @@
             <layout v-show="isCollapsed && show == '1-1'">
                 <i-content :style="{margin: '0 40px 40px',paddingTop:'20px'}">
                     <div class="cityName" style="text-align: center">
-                            <span style="font-size: 21px;margin-left:-30px"><icon style="margin-right: 16px" type="location" size="32"></icon>{{cityName}}</span>
+                            <span style="font-size: 21px;margin-left:-25px"><icon style="margin-right: 16px" type="location" size="32"></icon>{{cityName}}</span>
                     </div>
                     <div class="weatherType">
+                        <icon style="font-size: 128px" :type="weatherIcon"></icon>
                         <p>{{realWeatherType}}</p>
                     </div>
                     <div class="content">
@@ -55,9 +56,9 @@
                         <div style="width: 95%;background-color:#495060;height: 2px;margin: 20px auto" ></div>
                         <div class="weather3Hours">
                             <row type="flex" justify="center" class="code-row-bg" style="text-align: center" >
-                                <i-col style="width: 28%"><span style="font-size: 18px">{{Hours[0].Time}}时</span><div class="photo" style="font-size: 28px">{{Hours[0].WeatherType}}</div><span style="font-size: 25px">{{Hours[0].Temperature}}°</span><br></i-col>
-                                <i-col style="width: 28%"><span style="font-size: 18px">{{Hours[1].Time}}时</span><div class="photo" style="font-size: 28px">{{Hours[1].WeatherType}}</div><span style="font-size: 25px">{{Hours[1].Temperature}}°</span><br></i-col>
-                                <i-col style="width: 28%"><span style="font-size: 18px">{{Hours[2].Time}}时</span><div class="photo" style="font-size: 28px">{{Hours[2].WeatherType}}</div><span style="font-size: 25px">{{Hours[2].Temperature}}°</span><br></i-col>
+                                <i-col style="width: 28%"><span style="font-size: 18px">{{Hours[0].Time}}时</span><div class="photo" style="font-size: 28px"><icon class="hoursW" :type="hoursWeatherIcon[0]"></icon>{{Hours[0].WeatherType}}</div><span style="font-size: 25px">{{Hours[0].Temperature}}°</span><br></i-col>
+                                <i-col style="width: 28%"><span style="font-size: 18px">{{Hours[1].Time}}时</span><div class="photo" style="font-size: 28px"><icon class="hoursW" :type="hoursWeatherIcon[1]"></icon>{{Hours[1].WeatherType}}</div><span style="font-size: 25px">{{Hours[1].Temperature}}°</span><br></i-col>
+                                <i-col style="width: 28%"><span style="font-size: 18px">{{Hours[2].Time}}时</span><div class="photo" style="font-size: 28px"><icon class="hoursW" :type="hoursWeatherIcon[2]"></icon>{{Hours[2].WeatherType}}</div><span style="font-size: 25px">{{Hours[2].Temperature}}°</span><br></i-col>
                             </row>
                         </div>
 
@@ -157,6 +158,9 @@
     .aboutMe{
         margin-top: 50px;
     }
+    .hoursW{
+        font-size: 60px;
+    }
 
 
 </style>
@@ -197,7 +201,14 @@
             cityModel:'',
             loading:false,
             interval:null,
-
+            weatherIcon:'',
+            weatherIconList : {
+                '阴':'ios-partlysunny',
+                '雷阵雨' : 'ios-thunderstorm',
+                '晴':'ios-sunny',
+                '雨':'ios-rainy'
+            },
+            hoursWeatherIcon:['','','']
         },
         beforeCreate(){
             this.$Loading.start();
@@ -238,7 +249,13 @@
                     exp.setTime(exp.getTime() + 365*24*60*60*1000);
                     document.cookie="currentCity="+cityID + ";expires=" + exp.toGMTString();
                     this.cityName = this.item.value[0].city;
-                    this.realWeatherType = this.item.value[0].realtime.weather;
+
+                    if(this.weatherIconList[this.item.value[0].realtime.weather] != null){
+                        this.weatherIcon = 'ios-partlysunny'
+                    }
+                    else{
+                        this.realWeatherType = this.item.value[0].realtime.weather;
+                    }
                     this.realTem = this.item.value[0].realtime.temp;
                     var date = new Date() + '';
                     this.day = date.substring(0,3);
@@ -275,7 +292,12 @@
                 for(var i = 0;i<this.Hours.length;i++){
                     this.Hours[i].Time = array[i].startTime.substring(array[0].startTime.length-8,array[0].startTime.length-6);
                     this.Hours[i].Temperature = array[i].highestTemperature;
-                    this.Hours[i].WeatherType = array[i].weather;
+                    if(this.weatherIconList[array[i].weather] != null){
+                        this.hoursWeatherIcon[i] = this.weatherIconList[array[i].weather];
+                    }
+                    else{
+                        this.Hours[i].WeatherType = array[i].weather;
+                    }
                 }
             },
             getCookie(cname){
