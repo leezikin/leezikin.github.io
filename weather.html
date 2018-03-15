@@ -251,10 +251,11 @@
                     this.cityName = this.item.value[0].city;
 
                     if(this.weatherIconList[this.item.value[0].realtime.weather] != null){
-                        this.weatherIcon = 'ios-partlysunny'
+                        this.weatherIcon = this.weatherIconList[this.item.value[0].realtime.weather]
                     }
                     else{
                         this.realWeatherType = this.item.value[0].realtime.weather;
+                        this.weatherIcon = '';
                     }
                     this.realTem = this.item.value[0].realtime.temp;
                     var date = new Date() + '';
@@ -297,6 +298,7 @@
                     }
                     else{
                         this.Hours[i].WeatherType = array[i].weather;
+                        this.hoursWeatherIcon[i]='';
                     }
                 }
             },
