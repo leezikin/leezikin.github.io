@@ -16,7 +16,7 @@
     <layout>
         <i-header>
             <i-menu mode="horizontal" theme="dark" active-name="1">
-            <div class="layout-logo"  @click="toGithub"><p>Leezikin</p></div>
+                <div class="layout-logo"  @click="toGithub"><icon type="social-github"></icon><span>Leezikin</span></div>
                 <div class="layout-nav">
                     <menu-item name="1" class="menu-list" @click.native="toAbout">
                         <!--<icon type="ios-navigate"></icon>-->
@@ -155,19 +155,21 @@
     .layout-logo{
         width: 100px;
         height: 30px;
-        background: #5b6270;
-        border-radius: 3px;
+        /*background: #5b6270;*/
+        /*border-radius: 3px;*/
+
+        /*position: relative;*/
+        /*top: 15px;*/
+        /*left: 20px;*/
+        /*cursor:pointer;*/
         float: left;
-        position: relative;
-        top: 15px;
-        left: 20px;
-        cursor:pointer;
     }
-    .layout-logo p{
-        text-align: center;
-        margin-top: -15px;
-        width: 100%;
-        height:100%;
+    .layout-logo span{
+
+        color: #fff;
+    }
+    .layout-logo i{
+
         color: #fff;
     }
     .layout-logo p:hover{
