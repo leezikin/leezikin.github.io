@@ -1,0 +1,127 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, minimum-scale=1, user-scalable=no" />
+    <title>创建用于Annie的半次元采集批处理文件</title>
+    <link rel="stylesheet" type="text/css" href="http://unpkg.com/iview/dist/styles/iview.css">
+    <script type="text/javascript" src="http://vuejs.org/js/vue.min.js"></script>
+    <script type="text/javascript" src="http://unpkg.com/iview/dist/iview.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body>
+<div id="app">
+    <div class="content">
+           <h1 style="text-align: center;margin: 30px">annieBCY</h1>
+            <i-form ref="formDynamic" :model="formDynamic" style="width: 300px">
+                <form-item
+                        v-for="(item, index) in formDynamic.items"
+                        v-if="item.status"
+                        :key="index"
+                        :prop="'items.' + index + '.value'"
+                        :rules="[{required: true, message: ' ', trigger: 'blur'},{ pattern: /^((https|http):\/\/)?bcy.net\/[^\s]*$/, message: '请输入半次元的链接' }]">
+                    <row>
+                        <i-col span="18">
+                            <i-input type="text" v-model="item.value" placeholder="复制地址..."></i-input>
+                        </i-col>
+                        <i-col span="4" offset="1">
+                            <i-button type="ghost" @click="handleRemove(index)" icon="close" style="height: 32px" ></i-button>
+                        </i-col>
+                    </row>
+                </form-item>
+                <form-item>
+                    <row>
+                        <i-col span="12">
+                            <i-button type="dashed" long @click="handleAdd" icon="plus-round">Add url</i-button>
+                        </i-col>
+                    </row>
+                </form-item>
+                <form-item>
+                    <i-button type="primary" @click="handleSubmit('formDynamic')">提交</i-button>
+                    <i-button type="ghost" @click="handleReset('formDynamic')" style="margin-left: 8px">重置</i-button>
+                </form-item>
+            </i-form>
+    </div>
+</div>
+
+</body>
+</html>
+
+<style type="text/css">
+    .content{
+        margin-top: 35px;
+        padding: 10px;
+        width: 80%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .content form{
+        margin-left: auto;
+        margin-right: auto;
+    }
+    p {
+        color: black;
+    }
+
+
+</style>
+
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            index: 1,
+            formDynamic: {
+                items: [
+                    {
+                        value: '',
+                        index: 1,
+                        status: 1
+                    }
+                ]
+            },
+            items:[],
+        },
+        beforeCreate(){
+            this.$Loading.start();
+        },
+        mounted(){
+            this.$Loading.finish();
+        },
+        methods: {
+            handleSubmit (name) {
+                this.$refs[name].validate((valid) => {
+                    if (valid) {
+                        this.$Message.success('🙆');
+                        var j = 0;
+                        this.items = [];
+                        for(var i = 0;i<this.formDynamic.items.length;i++){
+                            if(this.formDynamic.items[i].status){
+                                this.items[j] = this.formDynamic.items[i].value;
+                                j++;
+                            }
+                        }
+                        console.log(this.items)
+                    } else {
+                        this.$Message.error('🙅');
+            }
+            })
+            },
+            handleReset (name) {
+                this.$refs[name].resetFields();
+            },
+            handleAdd () {
+                this.index++;
+                this.formDynamic.items.push({
+                    value: '',
+                    index: this.index,
+                    status: 1
+                });
+            },
+            handleRemove (index) {
+                this.formDynamic.items[index].status = 0;
+            }
+        }
+    });
+
+</script>
+
