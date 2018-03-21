@@ -11,7 +11,7 @@
 <body>
 <div id="app">
     <div class="content">
-           <h1 style="text-align: center;margin: 30px">annieBCY</h1>
+           <h1 style="text-align: center;margin: 30px;margin-top: 15px">annieBCY</h1>
             <i-form ref="formDynamic" :model="formDynamic" style="width: 300px">
                 <form-item
                         v-for="(item, index) in formDynamic.items"
@@ -66,7 +66,7 @@
 </style>
 
 <script>
-    new Vue({
+    var ha = new Vue({
         el: '#app',
         data: {
             index: 1,
@@ -80,6 +80,7 @@
                 ]
             },
             items:[],
+            project:[],
         },
         beforeCreate(){
             this.$Loading.start();
@@ -100,7 +101,8 @@
                                 j++;
                             }
                         }
-                        console.log(this.items)
+                     //   console.log(this.items);
+                        this.createBat();
                     } else {
                         this.$Message.error('🙅');
             }
@@ -119,6 +121,38 @@
             },
             handleRemove (index) {
                 this.formDynamic.items[index].status = 0;
+            },
+            createBat(){
+                //this.items
+                var temp = "";
+                temp += '@echo off\r\n';
+                var j = 0;
+                for(var i = 0;i<this.items.length;i++){
+                   // console.log(this.items[i]);
+                    if(/(^((https|http):\/\/)?bcy.net\/(coser|illust)\/detail\/\d+\/\d+)/.test(this.items[i])){
+                        this.project[j] = this.items[i].replace(/^((https|http):\/\/)?bcy.net\/(coser|illust)\/detail\//g,'');
+                        this.project[j] = this.project[j].replace(/\//g,'_');
+                        temp+='if not exist "'+this.project[j] + '" goto ' + j + '\r\nexit\r\n:' + j;
+                        temp+='\r\nmd "' + this.project[j] + '"\r\ncd ' + this.project[j]
+                        temp+='\r\nannie ' + this.items[i];
+                        temp+='\r\ncd..\r\n'
+                        j++;
+                    }
+                    console.log(temp)
+
+                }
+
+
+                let content =  new Blob([temp],{type:"text/plain"});
+               // console.log(content)
+                let  urlObject = window.URL || window.webkitURL || window;
+                let url = urlObject.createObjectURL(content);
+                let el = document.createElement('a');
+                el.href = url;
+                let time = new Date().getTime();
+                el.download =time + ".txt";
+                el.click();
+                urlObject.revokeObjectURL(url);
             }
         }
     });
