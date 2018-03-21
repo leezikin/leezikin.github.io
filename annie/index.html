@@ -10,9 +10,21 @@
 </head>
 <body>
 <div id="app">
+    <dropdown style=" float:right;margin-right: 25px" trigger="click" placement="bottom-end">
+        <a href="javascript:void(0)">
+            <icon type="arrow-down-b" style="font-size: 25px"></icon>
+        </a>
+        <dropdown-menu slot="list">
+            <dropdown-item @click.native="home" v-show="show == 1">主页</dropdown-item>
+            <dropdown-item @click.native="about" v-show="show == 0">关于</dropdown-item>
+            <dropdown-item disabled>PRO</dropdown-item>
+        </dropdown-menu>
+    </dropdown>
+
     <div class="content">
+        <div v-show="show == 0">
            <h1 style="text-align: center;margin: 30px;margin-top: 15px">annieBCY</h1>
-            <i-form ref="formDynamic" :model="formDynamic" style="width: 300px">
+            <i-form ref="formDynamic" :model="formDynamic" style="width: 280px">
                 <form-item
                         v-for="(item, index) in formDynamic.items"
                         v-if="item.status"
@@ -40,7 +52,37 @@
                     <i-button type="ghost" @click="handleReset('formDynamic')" style="margin-left: 8px">重置</i-button>
                 </form-item>
             </i-form>
+        </div>
+        <div v-show="show == 1">
+            <i-content style="margin-top: 20px">
+                <div class="aboutMe" style="text-align: center">
+                    <img style="width:120px" src="https://avatars3.githubusercontent.com/u/24774313"/><br>
+                    <span @click="">@leezikin</span>
+                    <div style="width: 95%;margin: auto;margin-top: 30px">
+                        <span>创建适用于iawia002/<a href="https://github.com/iawia002/annie">annie</a>的半次元下载批处理文件</span>
+                    </div>
+                    <row type="flex" justify="center">
+                        <i-col span="12" style="width: 120px;margin-top: 30px"><a href="https://github.com/leezikin/leezikin.github.io">GitHub</a></i-col>
+                        <i-col span="12" style="width: 120px;margin-top: 30px"><a href="mailto:admin@maoa-l.xyz">Email</a></i-col>
+                    </row>
+                    <timeline style="width: 220px;margin:auto;padding-top: 50px" >
+                        <timeline-item  style="text-align: left;color: black">
+                            <icon type="load-c" slot="dot" class="spin"></icon>
+                            <span>未来 <br>获取本周/日排行榜并自动生成文件</span>
+                        </timeline-item>
+
+                        <timeline-item  style="text-align: left;color: black">
+                            <span>ver0.0.2 <br>正则表达式修改，加入关于页面</span>
+                        </timeline-item>
+                        <timeline-item  style="text-align: left;color: black">
+                            <span>ver0.0.1 <br>第一个版本发布，已实现生成批处理文件</span>
+                        </timeline-item>
+                    </timeline>
+                </div>
+            </i-content>
+        </div>
     </div>
+    <div style="text-align: center;margin-top: 60px;position:inherit;bottom:15px;width:100%;font-size: 12px;">2017-2018  <span class="author">&copy;Leezikin</span></div>
 </div>
 
 </body>
@@ -61,6 +103,14 @@
     p {
         color: black;
     }
+    .spin{
+        animation: ani-spin 1.5s linear infinite;
+    }
+    @keyframes ani-spin{
+        from { transform: rotate(-0deg);}
+        to   { transform: rotate(360deg);}
+    }
+
 
 
 </style>
@@ -81,6 +131,7 @@
             },
             items:[],
             project:[],
+            show:0,
         },
         beforeCreate(){
             this.$Loading.start();
@@ -125,7 +176,7 @@
             createBat(){
                 //this.items
                 var temp = "";
-                temp += '@echo off\r\n';
+                temp += '@echo off\r\nlink start!\r\n';
                 var j = 0;
                 for(var i = 0;i<this.items.length;i++){
                    // console.log(this.items[i]);
@@ -153,6 +204,12 @@
                 el.download =time + ".txt";
                 el.click();
                 urlObject.revokeObjectURL(url);
+            },
+            about(){
+                this.show = 1;
+            },
+            home(){
+                this.show = 0;
             }
         }
     });
