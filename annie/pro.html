@@ -1,0 +1,255 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, minimum-scale=1, user-scalable=no" />
+    <title>创建用于Annie的半次元采集批处理文件</title>
+    <link rel="stylesheet" type="text/css" href="http://unpkg.com/iview/dist/styles/iview.css">
+    <script type="text/javascript" src="http://vuejs.org/js/vue.min.js"></script>
+    <script type="text/javascript" src="http://unpkg.com/iview/dist/iview.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://johnresig.com/files/htmlparser.js"></script>
+</head>
+<body>
+<div id="app">
+
+    <!--<a id="downloader" v-show="1 == 0">云想衣裳花想容</a>-->
+    <!--<dropdown style=" float:right;margin-right: 25px" trigger="click" placement="bottom-end">-->
+        <!--<a href="javascript:void(0)">-->
+            <!--<icon type="arrow-down-b" style="font-size: 25px"></icon>-->
+        <!--</a>-->
+        <!--<dropdown-menu slot="list">-->
+            <!--<dropdown-item @click.native="home" v-show="show == 1">主页</dropdown-item>-->
+            <!--<dropdown-item @click.native="about" v-show="show == 0">关于</dropdown-item>-->
+            <!--<dropdown-item disabled>PRO</dropdown-item>-->
+        <!--</dropdown-menu>-->
+    <!--</dropdown>-->
+
+    <!--<div class="content">-->
+        <!--<div v-show="show == 0">-->
+            <!--<h1 style="text-align: center;margin: 30px;margin-top: 15px">annieBCY</h1>-->
+            <!--<i-form ref="formDynamic" :model="formDynamic" style="width: 280px">-->
+                <!--<form-item-->
+                        <!--v-for="(item, index) in formDynamic.items"-->
+                        <!--v-if="item.status"-->
+                        <!--:key="index"-->
+                        <!--:prop="'items.' + index + '.value'"-->
+                        <!--:rules="[{required: true, message: ' ', trigger: 'blur'},{ pattern: /^((https|http):\/\/)?bcy.net\/[^\s]*$/, message: '请输入半次元的链接' }]">-->
+                    <!--<row>-->
+                        <!--<i-col span="18">-->
+                            <!--<i-input type="text" v-model="item.value" placeholder="复制地址..."></i-input>-->
+                        <!--</i-col>-->
+                        <!--<i-col span="4" offset="1">-->
+                            <!--<i-button type="ghost" @click="handleRemove(index)" icon="close" style="height: 32px" ></i-button>-->
+                        <!--</i-col>-->
+                    <!--</row>-->
+                <!--</form-item>-->
+                <!--<form-item>-->
+                    <!--<row>-->
+                        <!--<i-col span="12">-->
+                            <!--<i-button type="dashed" long @click="handleAdd" icon="plus-round">Add url</i-button>-->
+                        <!--</i-col>-->
+                    <!--</row>-->
+                <!--</form-item>-->
+                <!--<form-item>-->
+                    <!--<i-button type="primary" @click="handleSubmit('formDynamic')">提交</i-button>-->
+                    <!--<i-button type="ghost" @click="handleReset('formDynamic')" style="margin-left: 8px">重置</i-button>-->
+                <!--</form-item>-->
+            <!--</i-form>-->
+        <!--</div>-->
+        <!--<div v-show="show == 1">-->
+            <!--<i-content style="margin-top: 20px">-->
+                <!--<div class="aboutMe" style="text-align: center">-->
+                    <!--<img style="width:120px" src="https://avatars3.githubusercontent.com/u/24774313"/><br>-->
+                    <!--<span @click="">@leezikin</span>-->
+                    <!--<div style="width: 95%;margin: auto;margin-top: 30px">-->
+                        <!--<span>创建适用于iawia002/<a href="https://github.com/iawia002/annie">annie</a>的半次元下载批处理文件</span>-->
+                    <!--</div>-->
+                    <!--<row type="flex" justify="center">-->
+                        <!--<i-col span="12" style="width: 120px;margin-top: 30px"><a href="https://github.com/leezikin/leezikin.github.io">GitHub</a></i-col>-->
+                        <!--<i-col span="12" style="width: 120px;margin-top: 30px"><a href="mailto:admin@maoa-l.xyz">Email</a></i-col>-->
+                    <!--</row>-->
+                    <!--<timeline style="width: 220px;margin:auto;padding-top: 50px" >-->
+                        <!--<timeline-item  style="text-align: left;color: black">-->
+                            <!--<icon type="load-c" slot="dot" class="spin"></icon>-->
+                            <!--<span>未来 <br>获取本周/日排行榜并自动生成文件</span>-->
+                        <!--</timeline-item>-->
+
+                        <!--<timeline-item  style="text-align: left;color: black">-->
+                            <!--<span>ver0.0.2 <br>正则表达式修改，加入关于页面</span>-->
+                        <!--</timeline-item>-->
+                        <!--<timeline-item  style="text-align: left;color: black">-->
+                            <!--<span>ver0.0.1 <br>第一个版本发布，已实现生成批处理文件</span>-->
+                        <!--</timeline-item>-->
+                    <!--</timeline>-->
+                <!--</div>-->
+            <!--</i-content>-->
+        <!--</div>-->
+    <!--</div>-->
+    <!--<div style="text-align: center;margin-top: 60px;position:inherit;bottom:15px;width:100%;font-size: 12px;">2017-2018  <span class="author">&copy;Leezikin</span></div>-->
+</div>
+
+</body>
+</html>
+
+<style type="text/css">
+    .content{
+        margin-top: 35px;
+        padding: 10px;
+        width: 80%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .content form{
+        margin-left: auto;
+        margin-right: auto;
+    }
+    p {
+        color: black;
+    }
+    .spin{
+        animation: ani-spin 1.5s linear infinite;
+    }
+    @keyframes ani-spin{
+        from { transform: rotate(-0deg);}
+        to   { transform: rotate(360deg);}
+    }
+
+
+
+</style>
+
+<script>
+    var ha = new Vue({
+        el: '#app',
+        data: {
+            index: 1,
+            formDynamic: {
+                items: [
+                    {
+                        value: '',
+                        index: 1,
+                        status: 1
+                    }
+                ]
+            },
+            items:[],
+            project:[],
+            show:0,
+        },
+        beforeCreate(){
+            this.$Loading.start();
+        },
+        mounted(){
+            axios.get('https://maoalxyz.000webhostapp.com/api/bcy.php?parm=toppost100/').then((res)=>{
+
+               // console.log(res.data);
+                var coserItemRules = /(li class=\"_box\".*?(<\/a><\/div><\/li>))+/g;
+                res.data = res.data.replace(/\n/g,'');
+//                res.data = res.data.replace(/\s/g,'');
+                console.log(res.data.match(coserItemRules));
+                var Item = res.data.match(coserItemRules);
+                var ItemList = [];
+                for(var i = 0;i<Item.length;i++){
+
+                    var href = Item[i].match(/href="\/coser.*?"/g);
+                    var filename = href[0].substring(20,href[0].length - 1).replace(/\//g,'_'); //文件名
+                    href = 'https://bcy.net' + href[0].substring(6,href[0].length-1);//拼接下载链接
+                    var title = Item[i].match(/title=".*?"/g);
+                    title = title[0].substring(7,title[0].length - 1);//标题
+                    var projectImg = Item[i].match(/Image.*?\/>/g);
+                    projectImg  = projectImg[0].substring(12,projectImg[0].length - 3);//预览
+                    var oj = {
+                        title:'',
+                        href:'',
+                        img:''
+                    }
+                    oj.href = href;
+                    oj.title = title;
+                    oj.img = projectImg;
+                    ItemList[i] = oj;
+
+                }
+                console.log('===============================')
+                console.log(ItemList)
+                this.$Loading.finish();
+            });
+
+
+        },
+        methods: {
+//            handleSubmit (name) {
+//                this.$refs[name].validate((valid) => {
+//                    if (valid) {
+//                        this.$Message.success('🙆');
+//                        var j = 0;
+//                        this.items = [];
+//                        for(var i = 0;i<this.formDynamic.items.length;i++){
+//                            if(this.formDynamic.items[i].status){
+//                                this.items[j] = this.formDynamic.items[i].value;
+//                                j++;
+//                            }
+//                        }
+//                        //   console.log(this.items);
+//                        this.createBat();
+//                    } else {
+//                        this.$Message.error('🙅');
+//                    }
+//                })
+//            },
+//            handleReset (name) {
+//                this.$refs[name].resetFields();
+//            },
+//            handleAdd () {
+//                this.index++;
+//                this.formDynamic.items.push({
+//                    value: '',
+//                    index: this.index,
+//                    status: 1
+//                });
+//            },
+//            handleRemove (index) {
+//                this.formDynamic.items[index].status = 0;
+//            },
+//            createBat(){
+//                //this.items
+//                var temp = "";
+//                temp += '@echo off\r\necho link start!\r\n';
+//                var j = 0;
+//                for(var i = 0;i<this.items.length;i++){
+//                    // console.log(this.items[i]);
+//                    if(/(^((https|http):\/\/)?bcy.net\/(coser|illust)\/detail\/\d+\/\d+)/.test(this.items[i])){
+//                        this.project[j] = this.items[i].replace(/^((https|http):\/\/)?bcy.net\/(coser|illust)\/detail\//g,'');
+//                        this.project[j] = this.project[j].replace(/\//g,'_');
+//                        temp+='if not exist "'+this.project[j] + '" goto ' + j + '\r\nexit\r\n:' + j;
+//                        temp+='\r\nmd "' + this.project[j] + '"\r\ncd ' + this.project[j]
+//                        temp+='\r\nannie ' + this.items[i];
+//                        temp+='\r\ncd..\r\n'
+//                        j++;
+//                    }
+//                    console.log(temp)
+//
+//                }
+//
+//
+//                let content =  new Blob([temp],{type:"text/plain"});
+//                // console.log(content)
+//                let  urlObject = window.URL || window.webkitURL || window;
+//                let url = urlObject.createObjectURL(content);
+//                let el = document.getElementById('downloader');
+//                el.href = url;
+//                let time = new Date().getTime();
+//                el.download =time + ".txt";
+//                el.click();
+//                urlObject.revokeObjectURL(url);
+//            },
+//            about(){
+//                this.show = 1;
+//            },
+//            home(){
+//                this.show = 0;
+//            }
+        }
+    });
+
+</script>
+
