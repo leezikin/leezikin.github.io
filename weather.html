@@ -242,7 +242,7 @@
         },
         methods: {
             getWeather(cityID){
-                axios.get('http://dopamine.cf/api/index.php?city=' + cityID).then((res)=>{
+                axios.get('https://maoalxyz.000webhostapp.com/api/weather.php?city=' + cityID).then((res)=>{
                     this.item = res.data.substring(0,res.data.indexOf('<html>'));
                 this.item = JSON.parse(this.item);
                 if(this.item.code == 200){
