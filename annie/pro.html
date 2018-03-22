@@ -11,6 +11,18 @@
 </head>
 <body>
 <div id="app">
+    <div class="content">
+        <row type="flex" :gutter="6" justify="center">
+            <i-col span="6" style="width: 210px;height: 310px" v-for="item in ItemList">
+                <card class="card" @click.native="selectItem(item,ItemList.index)">
+                    <icon type="checkmark-round" v-show="item.status == 1"style="font-size:20px;position: absolute; top: -8px; right: -8px;"></icon>
+                    <div style="text-align:center">
+                        <img style="width: 90%;" :src="item.img"/>
+                        <span style="margin-top: 10px">{{item.title}}</span>
+                    </div>
+                </card>
+            </i-col>
+        </row>
 
     <!--<a id="downloader" v-show="1 == 0">云想衣裳花想容</a>-->
     <!--<dropdown style=" float:right;margin-right: 25px" trigger="click" placement="bottom-end">-->
@@ -24,7 +36,7 @@
         <!--</dropdown-menu>-->
     <!--</dropdown>-->
 
-    <!--<div class="content">-->
+
         <!--<div v-show="show == 0">-->
             <!--<h1 style="text-align: center;margin: 30px;margin-top: 15px">annieBCY</h1>-->
             <!--<i-form ref="formDynamic" :model="formDynamic" style="width: 280px">-->
@@ -84,14 +96,18 @@
                 <!--</div>-->
             <!--</i-content>-->
         <!--</div>-->
-    <!--</div>-->
-    <!--<div style="text-align: center;margin-top: 60px;position:inherit;bottom:15px;width:100%;font-size: 12px;">2017-2018  <span class="author">&copy;Leezikin</span></div>-->
+    </div>
+    <div style="text-align: center;margin-top: 60px;position:inherit;bottom:15px;width:100%;font-size: 12px;">2017-2018  <span class="author">&copy;Leezikin</span></div>
 </div>
 
 </body>
 </html>
 
 <style type="text/css">
+    .card{
+        width: 200px;
+        height: 300px;
+    }
     .content{
         margin-top: 35px;
         padding: 10px;
@@ -135,20 +151,20 @@
             items:[],
             project:[],
             show:0,
+            ItemList:[],
         },
         beforeCreate(){
             this.$Loading.start();
         },
         mounted(){
+
             axios.get('https://maoalxyz.000webhostapp.com/api/bcy.php?parm=toppost100/').then((res)=>{
 
-               // console.log(res.data);
                 var coserItemRules = /(li class=\"_box\".*?(<\/a><\/div><\/li>))+/g;
                 res.data = res.data.replace(/\n/g,'');
-//                res.data = res.data.replace(/\s/g,'');
-                console.log(res.data.match(coserItemRules));
+//                console.log(res.data.match(coserItemRules));
                 var Item = res.data.match(coserItemRules);
-                var ItemList = [];
+                this.ItemList = [];
                 for(var i = 0;i<Item.length;i++){
 
                     var href = Item[i].match(/href="\/coser.*?"/g);
@@ -161,22 +177,36 @@
                     var oj = {
                         title:'',
                         href:'',
-                        img:''
+                        img:'',
+                        status:1,
                     }
                     oj.href = href;
                     oj.title = title;
                     oj.img = projectImg;
-                    ItemList[i] = oj;
+                    this.ItemList[i] = oj;
 
                 }
+                this.ItemList[0].status = 0;
                 console.log('===============================')
-                console.log(ItemList)
+                console.log(this.ItemList)
                 this.$Loading.finish();
+
             });
 
 
         },
         methods: {
+            selectItem(item,d){
+                console.log(item);
+                console.log(d);
+
+                if(item.status == 1){
+                    Vue.set(item,"status",0)
+                }
+                else {
+                    Vue.set(item,"status",1)
+                }
+            },
 //            handleSubmit (name) {
 //                this.$refs[name].validate((valid) => {
 //                    if (valid) {
