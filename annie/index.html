@@ -10,6 +10,7 @@
 </head>
 <body>
 <div id="app">
+    <a id="downloader" v-show="1 == 0">云想衣裳花想容</a>
     <dropdown style=" float:right;margin-right: 25px" trigger="click" placement="bottom-end">
         <a href="javascript:void(0)">
             <icon type="arrow-down-b" style="font-size: 25px"></icon>
@@ -176,7 +177,7 @@
             createBat(){
                 //this.items
                 var temp = "";
-                temp += '@echo off\r\nlink start!\r\n';
+                temp += '@echo off\r\necho link start!\r\n';
                 var j = 0;
                 for(var i = 0;i<this.items.length;i++){
                    // console.log(this.items[i]);
@@ -198,7 +199,7 @@
                // console.log(content)
                 let  urlObject = window.URL || window.webkitURL || window;
                 let url = urlObject.createObjectURL(content);
-                let el = document.createElement('a');
+                let el = document.getElementById('downloader');
                 el.href = url;
                 let time = new Date().getTime();
                 el.download =time + ".txt";
