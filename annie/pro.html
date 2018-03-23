@@ -28,8 +28,8 @@
         <div style="margin-top: 20px" v-show="show == 0">
             <h1 style="text-align: center;margin: 30px;margin-top: 15px">annieBCY - PRO</h1>
             <row type="flex" :gutter="6" justify="center">
-                <i-col span="6" style="width: 210px;height: 310px" v-for="(item,index) in ItemList">
-                    <card class="card" @click.native="selectItem(ItemList,index)">
+                <i-col span="6" style="width: 210px;" v-for="(item,index) in showingItemList">
+                    <card class="card" @click.native="selectItem(showingItemList,index)">
                         <icon type="checkmark-round" v-show="item.status == 1"style="font-size:20px;position: absolute; top: -8px; right: -8px;"></icon>
                         <div style="text-align:center">
                             <img style="width: 90%;" :src="item.img"/>
@@ -38,6 +38,10 @@
                     </card>
                 </i-col>
             </row>
+            <div style="margin:50px auto;">
+                <page  :page-size="pageSize" :current="1" :total="itemList.length" simple @on-change="changepage"></page>
+            </div>
+
         </div>
 
         <div v-show="show == 1">
@@ -55,9 +59,11 @@
                     <timeline style="width: 220px;margin:auto;padding-top: 50px" >
                         <timeline-item  style="text-align: left;color: black">
                             <icon type="load-c" slot="dot" class="spin"></icon>
-                            <span>未来 <br>加入选项选择插画类</span>
+                            <span>未来 <br>加入选项选择类别</span>
                         </timeline-item>
-
+                        <timeline-item  style="text-align: left;color: black">
+                            <span>ver0.1.1 <br>照片优化，添加分页</span>
+                        </timeline-item>
                         <timeline-item  style="text-align: left;color: black">
                             <span>ver0.1.0 <br>获取本周排行榜并根据选择生成文件</span>
                         </timeline-item>
@@ -82,7 +88,7 @@
 <style type="text/css">
     .card{
         width: 200px;
-        height: 300px;
+
     }
     .content{
         margin-top: 35px;
@@ -124,29 +130,31 @@
                     }
                 ]
             },
-            items:[],
-            project:[],
+//            items:[],
+//            project:[],
             show:0,
-            ItemList:[],
+            itemList:[],
+            showingItemList:[],
+            pageSize: 5,
         },
         beforeCreate(){
 //            this.$Loading.start();
         },
         mounted(){
 
-            this.$Modal.confirm({
-                content: '<br><h2>请留意</h2><br><p>获取的图片非常多，在手机流量环境下浏览该页面将产生巨额流量。</p>',
-                okText: '晓得',
-                cancelText: '取消加载',
-                onOk:()=>{
-                    this.init();
-                },
-                onCancel:()=>{
+//            this.$Modal.confirm({
+//                content: '<br><h2>请留意</h2><br><p>获取的图片非常多，在手机流量环境下浏览该页面将产生巨额流量。</p>',
+//                okText: '晓得',
+//                cancelText: '取消加载',
+//                onOk:()=>{
+//                    this.init();
+//                },
+//                onCancel:()=>{
+//
+//                },
+//            });
 
-                },
-            });
-
-//            this.init();
+            this.init();
 
         },
         methods: {
@@ -158,7 +166,7 @@
                     res.data = res.data.replace(/\n/g,'');
 
                     var Item = res.data.match(coserItemRules);
-                    this.ItemList = [];
+                    this.itemList = [];
                     for(var i = 0;i<Item.length;i++){
 
                         var href = Item[i].match(/href="\/coser.*?"/g);
@@ -167,7 +175,7 @@
                         var title = Item[i].match(/title=".*?"/g);
                         title = title[0].substring(7,title[0].length - 1);//标题
                         var projectImg = Item[i].match(/Image.*?\/>/g);
-                        projectImg  = projectImg[0].substring(12,projectImg[0].length - 3);//预览
+                        projectImg  ='https://images.weserv.nl/?url=' +  projectImg[0].substring(20,projectImg[0].length - 3);//预览
                         var oj = {
                             title:'',
                             href:'',
@@ -179,11 +187,19 @@
                         oj.title = title;
                         oj.img = projectImg;
                         oj.filename = filename;
-                        this.ItemList[i] = oj;
+                        this.itemList[i] = oj;
+                        if(this.itemList.length < this.pageSize){
+                            this.showingItemList = this.itemList;
+                        }
+                        else{
+                            this.showingItemList = this.itemList.slice(0,this.pageSize);
+                            for(var asd = 0;asd<this.pageSize;asd++){
+                                this.showingItemList[asd]['index']  = asd;
+                            }
+                        }
 
                     }
                     console.log('===============================')
-                    console.log(this.ItemList)
                     this.$Loading.finish();
 
                 });
@@ -192,69 +208,36 @@
                 var item = list[index];
                 if(item.status == 1){
                     item.status = 0;
+                    this.itemList[this.showingItemList[index].index].status = 0;
                     this.$Message.info('取消');
                 }
                 else{
                     item.status = 1;
+                    this.itemList[this.showingItemList[index].index].status = 1;
                     this.$Message.success('选择成功');
                 }
                 Vue.set(list,index,item);
 
             },
-//            handleSubmit (name) {
-//                this.$refs[name].validate((valid) => {
-//                    if (valid) {
-//                        this.$Message.success('🙆');
-//                        var j = 0;
-//                        this.items = [];
-//                        for(var i = 0;i<this.formDynamic.items.length;i++){
-//                            if(this.formDynamic.items[i].status){
-//                                this.items[j] = this.formDynamic.items[i].value;
-//                                j++;
-//                            }
-//                        }
-//                        //   console.log(this.items);
-//                        this.createBat();
-//                    } else {
-//                        this.$Message.error('🙅');
-//                    }
-//                })
-//            },
-//            handleReset (name) {
-//                this.$refs[name].resetFields();
-//            },
-//            handleAdd () {
-//                this.index++;
-//                this.formDynamic.items.push({
-//                    value: '',
-//                    index: this.index,
-//                    status: 1
-//                });
-//            },
-//            handleRemove (index) {
-//                this.formDynamic.items[index].status = 0;
-//            },
+
             create(){
-                //this.items
+
                 var temp = "";
                 temp += '@echo off\r\necho link start!\r\n';
                 var j = 0;
 
-                for(var i = 0;i<this.ItemList.length;i++){
-                    if(this.ItemList[i].status == 1){
-                        temp+='if not exist "'+this.ItemList[i].filename + '" goto ' + j + '\r\nexit\r\n:' + j;
-                        temp+='\r\nmd "' + this.ItemList[i].filename + '"\r\ncd ' + this.ItemList[i].filename
-                        temp+='\r\nannie ' + this.ItemList[i].href;
+                for(var i = 0;i<this.itemList.length;i++){
+                    if(this.itemList[i].status == 1){
+                        temp+='if not exist "'+this.itemList[i].filename + '" goto ' + j + '\r\nexit\r\n:' + j;
+                        temp+='\r\nmd "' + this.itemList[i].filename + '"\r\ncd ' + this.itemList[i].filename
+                        temp+='\r\nannie ' + this.itemList[i].href;
                         temp+='\r\ncd..\r\n'
                         j++;
                     }
 
                 }
-//                console.log(temp);
-
 
                 let content =  new Blob([temp],{type:"text/plain"});
-                // console.log(content)
                 let  urlObject = window.URL || window.webkitURL || window;
                 let url = urlObject.createObjectURL(content);
                 let el = document.getElementById('downloader');
@@ -276,6 +259,37 @@
 
                 window.location.href="../index.html"
             },
+            changepage(index){
+                //清空图片
+//                for(var i = 0;i<this.showingItemList.length;i++){
+//                    var item = this.showingItemList[i];
+//                    item.img = './img/load.jpg';
+//                    Vue.set(this.showingItemList,i,item);
+//                    this.showingItemList[i] = item;
+//                }
+                scroll(0, 0);
+                var _start =  ( index - 1 ) * this.pageSize;
+                var _end = index * this.pageSize;
+                if(_end > this.itemList.length){
+                    _end = this.itemList.length
+                }
+
+                this.showingItemList = this.itemList.slice(_start,_end);
+
+
+                var j = 0;
+                for(var i = _start;i<_end;i++){
+//                    Object.assign(this.showingItemList[j],this.showingItemList[j],{index:i});
+                    this.showingItemList[j]['index']  = i;
+                    j++;
+                }
+//                console.log( this.showingItemList)
+
+
+
+
+            },
+
         }
     });
 
