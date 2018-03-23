@@ -160,7 +160,7 @@
         methods: {
             init(){
                 this.$Loading.start();
-                axios.get('https://maoalxyz.000webhostapp.com/api/bcy.php?parm=toppost100/').then((res)=>{
+                axios.get('https://maoalxyz.000webhostapp.com/api/bcy.php?parm=/coser/toppost100/').then((res)=>{
 
                     var coserItemRules = /(li class=\"_box\".*?(<\/a><\/div><\/li>))+/g;
                     res.data = res.data.replace(/\n/g,'');
