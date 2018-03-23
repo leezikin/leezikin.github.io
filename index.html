@@ -91,7 +91,14 @@
                             </p>                 </div>             </card>
                 </i-col>
                 <i-col class="projectCell" span="6">
-                    <card>                 <div class="cardView">                     <div class="photo"></div>                     <p>                         Example                     </p>                 </div>             </card>
+                    <card style="margin-left: auto;margin-right: auto" @click.native="toAnnie">
+                        <div class="cardView">
+                            <div class="photo">
+                                <img src="img/annie.jpg">
+                            </div>
+                            <p>
+                                创建适用于<a href="https://github.com/iawia002/annie">Annie</a>的批处理文件
+                            </p>                 </div>             </card>
                 </i-col>
                 <i-col class="projectCell" span="6">
                     <card>                 <div class="cardView">                     <div class="photo"></div>                     <p>                         Example                     </p>                 </div>             </card>
@@ -140,6 +147,9 @@
             },
             toZOE(){
                 window.location.href="http://zoe.maoa-l.xyz/";
+            },
+            toAnnie(){
+                window.location.href="./annie/";
             }
         }
     })
