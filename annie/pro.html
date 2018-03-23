@@ -11,6 +11,8 @@
 </head>
 <body>
 <div id="app">
+
+
     <a id="downloader" v-show="1 == 0">云想衣裳花想容</a>
     <dropdown style=" float:right;margin-right: 25px" trigger="click" placement="bottom-end">
         <a href="javascript:void(0)">
@@ -128,49 +130,64 @@
             ItemList:[],
         },
         beforeCreate(){
-            this.$Loading.start();
+//            this.$Loading.start();
         },
         mounted(){
 
-            axios.get('https://maoalxyz.000webhostapp.com/api/bcy.php?parm=toppost100/').then((res)=>{
+            this.$Modal.confirm({
+                content: '<br><h2>请留意</h2><br><p>获取的图片非常多，在手机流量环境下浏览该页面将产生巨额流量。</p>',
+                okText: '晓得',
+                cancelText: '取消加载',
+                onOk:()=>{
+                    this.init();
+                },
+                onCancel:()=>{
 
-                var coserItemRules = /(li class=\"_box\".*?(<\/a><\/div><\/li>))+/g;
-                res.data = res.data.replace(/\n/g,'');
-
-                var Item = res.data.match(coserItemRules);
-                this.ItemList = [];
-                for(var i = 0;i<Item.length;i++){
-
-                    var href = Item[i].match(/href="\/coser.*?"/g);
-                    var filename = href[0].substring(20,href[0].length - 1).replace(/\//g,'_'); //文件名
-                    href = 'https://bcy.net' + href[0].substring(6,href[0].length-1);//拼接下载链接
-                    var title = Item[i].match(/title=".*?"/g);
-                    title = title[0].substring(7,title[0].length - 1);//标题
-                    var projectImg = Item[i].match(/Image.*?\/>/g);
-                    projectImg  = projectImg[0].substring(12,projectImg[0].length - 3);//预览
-                    var oj = {
-                        title:'',
-                        href:'',
-                        img:'',
-                        filename:'',
-                        status:0,
-                    }
-                    oj.href = href;
-                    oj.title = title;
-                    oj.img = projectImg;
-                    oj.filename = filename;
-                    this.ItemList[i] = oj;
-
-                }
-                console.log('===============================')
-                console.log(this.ItemList)
-                this.$Loading.finish();
-
+                },
             });
 
+//            this.init();
 
         },
         methods: {
+            init(){
+                this.$Loading.start();
+                axios.get('https://maoalxyz.000webhostapp.com/api/bcy.php?parm=toppost100/').then((res)=>{
+
+                    var coserItemRules = /(li class=\"_box\".*?(<\/a><\/div><\/li>))+/g;
+                    res.data = res.data.replace(/\n/g,'');
+
+                    var Item = res.data.match(coserItemRules);
+                    this.ItemList = [];
+                    for(var i = 0;i<Item.length;i++){
+
+                        var href = Item[i].match(/href="\/coser.*?"/g);
+                        var filename = href[0].substring(20,href[0].length - 1).replace(/\//g,'_'); //文件名
+                        href = 'https://bcy.net' + href[0].substring(6,href[0].length-1);//拼接下载链接
+                        var title = Item[i].match(/title=".*?"/g);
+                        title = title[0].substring(7,title[0].length - 1);//标题
+                        var projectImg = Item[i].match(/Image.*?\/>/g);
+                        projectImg  = projectImg[0].substring(12,projectImg[0].length - 3);//预览
+                        var oj = {
+                            title:'',
+                            href:'',
+                            img:'',
+                            filename:'',
+                            status:0,
+                        }
+                        oj.href = href;
+                        oj.title = title;
+                        oj.img = projectImg;
+                        oj.filename = filename;
+                        this.ItemList[i] = oj;
+
+                    }
+                    console.log('===============================')
+                    console.log(this.ItemList)
+                    this.$Loading.finish();
+
+                });
+            },
             selectItem(list,index){
                 var item = list[index];
                 if(item.status == 1){
@@ -258,7 +275,7 @@
             goHome(){
 
                 window.location.href="../index.html"
-            }
+            },
         }
     });
 
