@@ -18,7 +18,7 @@
         <dropdown-menu slot="list">
             <dropdown-item @click.native="home" v-show="show == 1">主页</dropdown-item>
             <dropdown-item @click.native="about" v-show="show == 0">关于</dropdown-item>
-            <dropdown-item disabled>PRO</dropdown-item>
+            <dropdown-item @click.native="toPro">PRO</dropdown-item>
         </dropdown-menu>
     </dropdown>
 
@@ -57,8 +57,8 @@
         <div v-show="show == 1">
             <i-content style="margin-top: 20px">
                 <div class="aboutMe" style="text-align: center">
-                    <img style="width:120px" src="https://avatars3.githubusercontent.com/u/24774313"/><br>
-                    <span @click="">@leezikin</span>
+                    <img @click="goHome" style="width:120px" src="https://avatars3.githubusercontent.com/u/24774313"/><br>
+                    <span @click="goHome">@leezikin</span>
                     <div style="width: 95%;margin: auto;margin-top: 30px">
                         <span>创建适用于iawia002/<a href="https://github.com/iawia002/annie">annie</a>的半次元下载批处理文件</span>
                     </div>
@@ -69,7 +69,11 @@
                     <timeline style="width: 220px;margin:auto;padding-top: 50px" >
                         <timeline-item  style="text-align: left;color: black">
                             <icon type="load-c" slot="dot" class="spin"></icon>
-                            <span>未来 <br>获取本周/日排行榜并自动生成文件</span>
+                            <span>未来 <br>加入选项选择插画类</span>
+                        </timeline-item>
+
+                        <timeline-item  style="text-align: left;color: black">
+                            <span>ver0.1.0 <br>获取本周排行榜并根据选择生成文件</span>
                         </timeline-item>
 
                         <timeline-item  style="text-align: left;color: black">
@@ -211,6 +215,13 @@
             },
             home(){
                 this.show = 0;
+            },
+            toPro(){
+                window.location.href="./pro.html";
+            },
+            goHome(){
+
+                window.location.href="../index.html"
             }
         }
     });
