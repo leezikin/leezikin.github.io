@@ -1,7 +1,7 @@
 # Annie
 
 ## Annie 半次元
-生成适用于[Annie](https://github.com/leezikin/leezikin.github.io/new/master/annie) windows环境下的批处理下载文件
+生成适用于[Annie](https://github.com/iawia002/annie) windows环境下的批处理下载文件
 ### 环境配置
 先下载Annie [releases](https://github.com/iawia002/annie/releases) 里面你所对应的windows版本
 
