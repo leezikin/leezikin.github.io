@@ -62,6 +62,9 @@
                             <span>未来 <br>加入选项选择类别</span>
                         </timeline-item>
                         <timeline-item  style="text-align: left;color: black">
+                            <span>ver0.1.11 <br>更新正则表达式</span>
+                        </timeline-item>
+                        <timeline-item  style="text-align: left;color: black">
                             <span>ver0.1.1 <br>照片优化，添加分页</span>
                         </timeline-item>
                         <timeline-item  style="text-align: left;color: black">
@@ -162,14 +165,14 @@
                 this.$Loading.start();
                 axios.get('https://maoalxyz.000webhostapp.com/api/bcy.php?parm=/coser/toppost100/').then((res)=>{
 
-                    var coserItemRules = /(li class=\"_box\".*?(<\/a><\/div><\/li>))+/g;
+                    var coserItemRules = /(li class=\"js-smallCards _box\".*?(<\/li>))+/g;
                     res.data = res.data.replace(/\n/g,'');
-
                     var Item = res.data.match(coserItemRules);
+//                    console.log(Item)
                     this.itemList = [];
                     for(var i = 0;i<Item.length;i++){
 
-                        var href = Item[i].match(/href="\/coser.*?"/g);
+                        var href = Item[i].match(/href="\/item.*?"/g);
                         var filename = href[0].substring(20,href[0].length - 1).replace(/\//g,'_'); //文件名
                         href = 'https://bcy.net' + href[0].substring(6,href[0].length-1);//拼接下载链接
                         var title = Item[i].match(/title=".*?"/g);

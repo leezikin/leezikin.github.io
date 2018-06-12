@@ -72,6 +72,9 @@
                             <span>未来 <br>加入选项选择插画类</span>
                         </timeline-item>
                         <timeline-item  style="text-align: left;color: black">
+                            <span>ver0.1.11 <br>更新正则表达式</span>
+                        </timeline-item>
+                        <timeline-item  style="text-align: left;color: black">
                             <span>ver0.1.1 <br>照片优化，添加分页</span>
                         </timeline-item>
                         <timeline-item  style="text-align: left;color: black">
@@ -187,8 +190,8 @@
                 var j = 0;
                 for(var i = 0;i<this.items.length;i++){
                    // console.log(this.items[i]);
-                    if(/(^((https|http):\/\/)?bcy.net\/(coser|illust)\/detail\/\d+\/\d+)/.test(this.items[i])){
-                        this.project[j] = this.items[i].replace(/^((https|http):\/\/)?bcy.net\/(coser|illust)\/detail\//g,'');
+                    if(/(^((https|http):\/\/)?bcy.net\/(item)\/detail\/\d+\/\d+)/.test(this.items[i])){
+                        this.project[j] = this.items[i].replace(/^((https|http):\/\/)?bcy.net\/(item)\/detail\//g,'');
                         this.project[j] = this.project[j].replace(/\//g,'_');
                         temp+='if not exist "'+this.project[j] + '" goto ' + j + '\r\nexit\r\n:' + j;
                         temp+='\r\nmd "' + this.project[j] + '"\r\ncd ' + this.project[j]
