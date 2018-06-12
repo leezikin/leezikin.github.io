@@ -111,7 +111,14 @@
                             </p>                 </div>             </card>
                 </i-col>
                 <i-col class="projectCell" span="6">
-                    <card>                 <div class="cardView">                     <div class="photo"></div>                     <p>                         Example                     </p>                 </div>             </card>
+                    <card style="margin-left: auto;margin-right: auto" @click.native="toBT">
+                        <div class="cardView">
+                            <div class="photo">
+                                <img src="img/bluetoothchar.jpg">
+                            </div>
+                            <p>
+                                安卓蓝牙MediaPlayer控制器
+                            </p>                 </div>             </card>
                 </i-col>
                 <i-col class="projectCell" span="6">
                     <card>                 <div class="cardView">                     <div class="photo"></div>                     <p>                         Example                     </p>                 </div>             </card>
@@ -162,7 +169,10 @@
                 window.location.href="./annie/";
             },
             toEmptyText(){
-                window.location.href="http://leezikin.github.io/_/";
+               window.location.href="http://leezikin.github.io/_/";
+            },
+            toBT(){
+                window.location.href="https://github.com/leezikin/bluetoothchar";
             },
         }
     })
