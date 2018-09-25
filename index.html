@@ -43,21 +43,6 @@
         <div class="projectList">
 
             <row :gutter="16"  type="flex" justify="center" style="padding-top: 20px;">
-                <i-col  class="projectCell" span="6">
-                    <card style="margin-left: auto;margin-right: auto" @click.native="toOne">
-                        <!--<p slot="title">-->
-                            <!--less than one-->
-                        <!--</p>-->
-                        <div class="cardView">
-                            <div class="photo">
-                                <img src="img/one.jpg">
-                            </div>
-                            <p>
-                                One·一个，简化
-                            </p>
-                        </div>
-                    </card>
-                </i-col>
                 <i-col class="projectCell" span="6">
                     <card style="margin-left: auto;margin-right: auto" @click.native="toWeather">
                         <div class="cardView">
@@ -119,6 +104,21 @@
                             <p>
                                 安卓蓝牙MediaPlayer控制器
                             </p>                 </div>             </card>
+                </i-col>
+                <i-col  class="projectCell" span="6">
+                    <card style="margin-left: auto;margin-right: auto" @click.native="toOne">
+                        <!--<p slot="title">-->
+                        <!--less than one-->
+                        <!--</p>-->
+                        <div class="cardView">
+                            <div class="photo">
+                                <img src="img/one.jpg">
+                            </div>
+                            <p>
+                                One·一个，简化
+                            </p>
+                        </div>
+                    </card>
                 </i-col>
                 <i-col class="projectCell" span="6">
                     <card>                 <div class="cardView">                     <div class="photo"></div>                     <p>                         Example                     </p>                 </div>             </card>
