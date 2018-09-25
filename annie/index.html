@@ -13,7 +13,7 @@
     <a id="downloader" v-show="1 == 0">云想衣裳花想容</a>
     <dropdown style=" float:right;margin-right: 25px" trigger="click" placement="bottom-end">
         <a href="javascript:void(0)">
-            <icon type="arrow-down-b" style="font-size: 25px"></icon>
+            <icon type="ios-arrow-down" style="font-size: 25px"></icon>
         </a>
         <dropdown-menu slot="list">
             <dropdown-item @click.native="home" v-show="show == 1">主页</dropdown-item>
@@ -50,7 +50,7 @@
                 </form-item>
                 <form-item>
                     <i-button type="primary" @click="handleSubmit('formDynamic')">提交</i-button>
-                    <i-button type="ghost" @click="handleReset('formDynamic')" style="margin-left: 8px">重置</i-button>
+                    <i-button type="dashed" @click="handleReset('formDynamic')" style="margin-left: 8px">重置</i-button>
                 </form-item>
             </i-form>
         </div>
@@ -68,8 +68,11 @@
                     </row>
                     <timeline style="width: 220px;margin:auto;padding-top: 50px" >
                         <timeline-item  style="text-align: left;color: black">
-                            <icon type="load-c" slot="dot" class="spin"></icon>
+                            <icon type="ios-loading" slot="dot" class="spin"></icon>
                             <span>未来 <br>加入选项选择插画类</span>
+                        </timeline-item>
+                        <timeline-item  style="text-align: left;color: black">
+                            <span>ver0.2 <br>iview3 ICON 名称更新</span>
                         </timeline-item>
                         <timeline-item  style="text-align: left;color: black">
                             <span>ver0.1.11 <br>更新正则表达式</span>
