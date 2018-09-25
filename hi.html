@@ -11,6 +11,16 @@
 <body>
 <div id="app">
     <div style="margin-left: auto;margin-right: auto;">
+        <modal
+                v-model="modal"
+                title="抱歉"
+                width="300">
+            <p>该项目已因为ONE官网API关闭导致失效:(</p>
+
+            <div slot="footer">
+                <p style="text-align: center"><a href="img/181152.JPG">存活时展示图</a><code>|</code> <A href="https://github.com/leezikin/leezikin.github.io/blob/master/hi.html">项目代码</A></p>
+            </div>
+        </modal>
         <img :src="img_url" style="width: 100%"></img>
 
         <p class="day">{{day}}</p>
@@ -76,12 +86,16 @@
             post_date:'',
             day:'',
             month:'',
+            modal:true,
+
         },
         beforeCreate(){
             this.$Loading.start();
         },
         mounted(){
-            console.log('mounted');
+            console.log('mounted')
+
+
             axios.get('http://v3.wufazhuce.com:8000/api/onelist/idlist/?channel=wdj&version=4.0.2&uuid=ffffffff-a90e-706a-63f7-ccf973aae5ee&platform=android').then((res)=>{
                 this.id = res.data.data[0];
             }).then(
