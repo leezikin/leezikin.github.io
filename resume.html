@@ -1,0 +1,136 @@
+<html>
+<head>
+    <title>后花园</title>
+    <!--<meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, minimum-scale=1, user-scalable=no" />-->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+    <meta name="author" content="leezikin">
+    <meta name="keywords" content="leezikin,博客">
+
+    <script type="text/javascript" src="https://vuejs.org/js/vue.min.js"></script>
+    <script type="text/javascript" src="https://unpkg.com/iview/dist/iview.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+</head>
+<body>
+
+    <div id="app" class="contain">
+        <div class="sider">
+            <div class="top-info">
+                <img src="https://avatars3.githubusercontent.com/u/24774313" class="photo">
+                <h1>{{author_cn}}</h1>
+                <h1 style="font-size: 30px;letter-spacing: 6px;">{{author}}</h1>
+                <h2>{{describe}}</h2>
+            </div>
+            <div class="sider-info">
+                <div class="sider-title"><icon type="md-contact"></icon><span>个人介绍</span></div>
+                <p style="margin-top: 15px">
+                    测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本
+                </p>
+            </div>
+            <div class="sider-info">
+                <div class="sider-title"><icon type="ios-chatbubbles"></icon><span>联系方式</span></div>
+                <p class="contact-cell"><icon type="ios-call"></icon><span>电话:13700000000</span></p>
+                <p class="contact-cell"><icon type="ios-mail"></icon><span>邮件:<a href="mailto:leezikin@foxmail.com" style="color: white">leezikin@foxmail.com</a></span></p>
+                <p class="contact-cell"><icon type="logo-github"></icon><span>Github:<a href="https://github.com/leezikin" target="_blank" style="color: white">Leezikin</a></span></p>
+                <p class="contact-cell"><icon type="logo-whatsapp"></icon><span>微信:mossplant_lokey</span></p>
+            </div>
+        </div>
+        <div class="content">
+
+        </div>
+    </div>
+
+
+</body>
+
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            author_cn:"烫烫烫",
+            author:'Leezikin',
+            describe:'Web前端工程师方向',
+        },
+        methods:{
+
+        }
+    })
+</script>
+<style>
+    @import url("https://unpkg.com/iview/dist/styles/iview.css");
+    body{
+        min-width: 1240px;
+        color: white;
+    }
+
+    .contain{
+       position: relative;
+       margin: 20px auto;
+       width:1240px;
+        box-shadow:5px 5px 12px #eee;
+    }
+  .sider{
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      background: #495060;
+      width: 400px;
+      padding-bottom: 1754px;
+
+  }
+   .content{
+       position: relative;
+       left: 400px;
+       padding-bottom: 1754px;
+   }
+    .photo{
+        width: 100%;
+        margin: 40px auto;
+        padding: 0 33%;
+    }
+    .top-info{
+       text-align: center;
+    }
+    .top-info h1{
+        letter-spacing: 12px;
+        font-size: 36px;
+        font-weight: normal;
+        margin-top: -10px;
+    }
+    .top-info h2{
+        font-size: 18px;
+        font-weight: normal;
+    }
+    .sider-info{
+        padding-top: 20px;
+        margin: 0 auto;
+        width: 80%;
+        font-size: 20px;
+    }
+    .sider-title{
+        margin-top: 45px;
+    }
+    .sider-title i{
+        font-size: 48px;
+    }
+    .sider-title span{
+        position: relative;
+        font-size: 24px;
+        margin-left: 5px;
+        font-weight: bold;
+        bottom: -5px;
+    }
+    .contact-cell{
+        margin-top: 5px;
+    }
+    .contact-cell i{
+        font-size: 28px;
+    }
+    .contact-cell span{
+        margin-left: 8px;
+        font-size: 20px;
+        font-weight: normal;
+    }
+
+</style>
+</html>
