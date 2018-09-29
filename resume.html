@@ -35,7 +35,37 @@
                 <p class="contact-cell"><icon type="logo-whatsapp"></icon><span>微信:mossplant_lokey</span></p>
             </div>
         </div>
-        <div class="content">
+        <div class="content1">
+            <div class="content-cell">
+                <div class="content-title"><icon type="ios-book"></icon><span>个人经验</span></div>
+                <!--<ul>-->
+                    <!--<li>asdad</li>-->
+                    <!--<li>asdad</li><li>asdad</li>-->
+
+                <!--</ul>-->
+                <timeline>
+                    <timeline-item>
+                        <p class="time">time</p>
+                        <p class="content">contentcontent</p>
+                    </timeline-item>
+                    <timeline-item>
+                        <p class="time">time</p>
+                        <p class="content">contentcontent</p>
+                    </timeline-item>
+                    <timeline-item>
+                        <p class="time">time</p>
+                        <p class="content">contentcontentcontent<br/>content<br/>contentcontent<br/>contentcontentcontent</p>
+                    </timeline-item>
+                    <timeline-item>
+                        <p class="time">time</p>
+                        <p class="content">contentcontent</p>
+                    </timeline-item>
+                    <timeline-item>
+                        <p class="time">time</p>
+                        <p class="content">contentcontent</p>
+                    </timeline-item>
+                </timeline>
+            </div>
 
         </div>
     </div>
@@ -67,7 +97,8 @@
        position: relative;
        margin: 20px auto;
        width:1240px;
-        box-shadow:5px 5px 12px #eee;
+       overflow:hidden;
+       box-shadow:5px 5px 12px #eee;
     }
   .sider{
       position: absolute;
@@ -78,10 +109,13 @@
       padding-bottom: 1754px;
 
   }
-   .content{
+   .content1{
        position: relative;
        left: 400px;
-       padding-bottom: 1754px;
+       width: 840px;
+       padding:20px 20px 1754px;
+       margin-right: -2000px;
+       color: #495060;
    }
     .photo{
         width: 100%;
@@ -130,6 +164,46 @@
         margin-left: 8px;
         font-size: 20px;
         font-weight: normal;
+    }
+    .content-title{
+        border: 2px solid #495060;
+        border-top:none;
+        border-left: none;
+        border-right: none;
+        margin-bottom: 30px;
+    }
+    .content-title i{
+        font-size: 40px;
+    }
+    .content-title span{
+        font-size: 36px;
+        position: relative;
+        bottom: -5px;
+    }
+    .content-cell{
+        margin-left: 25px;
+    }
+    .time{
+        font-size: 22px;
+        font-weight: bold;
+        /*font-weight: normal;*/
+
+    }
+    .content{
+        padding-left: 5px;
+        font-size: 20px;
+    }
+    .ivu-timeline-item-head{
+        margin-top: 6px;
+        margin-left:-2px;
+        width: 18px;
+        height: 18px;
+    }
+    .ivu-timeline-item-tail{
+        top:5px;
+    }
+    .ivu-timeline-item-head{
+        border-color:#ccc;
     }
 
 </style>
