@@ -204,8 +204,8 @@
             weatherIcon:'',
             weatherIconList : {
                 '阴':'ios-cloudy',
-                '多云':'ios-partlysunny',
-                '少云':'ios-partlysunny',
+                '多云':'ios-partly-sunny',
+                '少云':'ios-partly-sunny',
                 '雷阵雨' : 'ios-thunderstorm',
                 '晴':'ios-sunny',
                 '雨':'ios-rainy'
@@ -359,6 +359,7 @@
                 }
                 this.city = this.cityModel;
                 this.getWeather(this.city);
+                this.show = '1-1';
             },
             goHome(){
 
