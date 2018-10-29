@@ -166,7 +166,7 @@
         methods: {
             init(){
                 this.$Loading.start();
-                axios.get('https://h1ro.cf/api/bcy.php?parm=/coser/toppost100/').then((res)=>{
+                axios.get('https://h1ro.cf/api/bcy.php?parm=/illust/toppost100/').then((res)=>{
 
                     var coserItemRules = /(li class=\"js-smallCards _box\".*?(<\/li>))+/g;
                     res.data = res.data.replace(/\n/g,'');
