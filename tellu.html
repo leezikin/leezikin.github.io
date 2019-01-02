@@ -1,0 +1,209 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, minimum-scale=1, user-scalable=no" />
+    <title>_</title>
+    <script src="https://cdn.bootcss.com/vue/2.5.21/vue.min.js"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://unpkg.com/clipboard/dist/clipboard.min.js"></script>
+    <script type="text/javascript" src="https://static.runoob.com/assets/qrcode/qrcode.min.js"></script>
+
+</head>
+<body>
+        
+<div id="app">
+    <div  class="menu"><span @click="changeShow">{{showText}}</span></div>
+    <div class="content">
+        <div v-show="show == 0">
+            <input readonly id="value" ref="input" spellcheck="false" v-model="string" data-clipboard-target="#value" type="text" placeholder='' class="input">
+        </div>
+        <div v-show="show == 1">
+            <div id="qrcode"></div>
+            <div class="todo">嘘</div>
+        </div>
+    </div>
+    <div class="footer">2017-2019  <span class="author">&copy;Leezikin</span></div>
+</div>
+
+</body>
+</html>
+
+<style type="text/css">
+    .menu{
+        position: fixed;
+        top: 10px;
+        right: 15px; 
+        font-size: 12px;
+        z-index: 999;
+        margin: 5px 0;
+        padding: 7px 0;
+        background-color: #fff;
+        border-radius: 5px;
+        box-shadow: 0 1px 6px rgba(0,0,0,.07);
+    }
+    .menu:hover{
+        -webkit-box-shadow: 0 1px 6px rgba(0,0,0,.2);
+        box-shadow: 0 1px 6px rgba(0,0,0,.2);
+    }
+    .menu span{
+        margin: 0;
+        line-height: normal;
+        padding: 7px 16px;
+        clear: both;
+        color: #8b909b;
+        font-size: 12px!important;
+        white-space: nowrap;
+        list-style: none;
+        cursor: pointer;
+    }
+    
+    .content{
+        margin: 100px auto;
+        padding: 10px;
+        width: 80%;
+    }
+    .footer{
+        text-align: center;
+        position:fixed;
+        bottom:15px;
+        width:100%;
+        font-size: 12px;
+    }
+    .todo{
+        font-size: 36px;
+        text-align: center;
+        /* animation: ani 1.5s linear infinite; */
+    }
+    #qrcode img{
+        margin:0 auto;
+    }
+    .input{
+        margin-top: 50px;
+        display: inline-block;
+        width: 100%;
+        height: 32px;
+        line-height: 1.5;
+        padding: 4px 7px;
+        font-size: 12px;
+        border: 1px solid #dcdee2;
+        border-radius: 20px;
+        color: #515a6e;
+        background-color: #fff;
+        position: relative;
+        cursor: text;
+    }
+    .input:focus {
+    border-color: hsl(209, 84%, 64%);
+    outline: 0;
+    -webkit-box-shadow: 0 0 0 1.5px hsl(209, 94%, 80%);
+    box-shadow: 0 0 0 1.5px hsl(209, 94%, 80%);
+}
+    .input:hover {
+    border-color: hsl(209, 84%, 64%);
+    }
+   
+    /* @keyframes ani{
+        0% { transform: rotate(-0deg);}
+        100%   { transform: rotate(360deg);}
+    } */
+</style>
+
+<script>
+    const router = new VueRouter({
+        mode: 'history',
+    })
+    var ha = new Vue({
+        router,
+        el: '#app',
+        data: {
+            urlPath:'https://leezikin.github.io/tellu',
+            index: 1,
+            res:{},
+            show:0,
+            string:'',
+            showText:'生成',
+            placeholder:'',
+        },
+        beforeCreate(){
+        },
+        mounted(){
+            this.initClipboard()
+            this.getString()
+            this.getQr()
+        },
+        methods: {
+            getString(){
+                var string = this.$route.query.string
+                var url = this.$route.query.url
+                if(string != '' && string != null){
+                    const value = string
+                    if(value !='' && value != null){
+                        this.string = value
+                    }
+                }else if(url != null && url !=''){
+                    this.$refs.input.placeholder = '加载中...'
+                    axios.get('https://h1ro.cf',{
+                        params: {
+                            url: url,
+                        }}).then((res)=>{
+                        console.log(res)
+                        if(res.data.code == 0){
+                            this.string = res.data.content
+                        }else{
+                            this.$refs.input.placeholder = '未找到该链接'
+                        }
+                    })
+                }else{
+                    this.$refs.input.placeholder = '没有文本啊...'
+                }
+               
+            },
+            getQr(){
+                var url = this.urlPath;
+                if(this.$route.query.string != null && this.$route.query.string != ''){
+                    url += "?string=" + this.$route.query.string
+                } else if(this.$route.query.url != null && this.$route.query.url != ''){
+                    url += "?url=" + this.$route.query.url
+                }
+                var qrcode = new QRCode(document.getElementById("qrcode"), {
+                    text: url,
+                    width: 128,
+                    height: 128,
+                    colorDark : "#000000",
+                    colorLight : "#ffffff",
+                    correctLevel : QRCode.CorrectLevel.H
+                });
+            },
+            changeShow(){
+                if(this.show == 0){
+                    this.show = 1
+                    this.showText = '主页'
+                } else{
+                    this.show = 0
+                    this.showText = '生成'
+                }
+            },
+            initClipboard(){
+                var clipboard = new ClipboardJS('.input');
+                clipboard.on('success', function(e) {
+                    if(ha.string != '' && ha.string != null){
+                        window.alert('成功')
+                        e.clearSelection();
+                    }
+                    
+                });
+                clipboard.on('error', function(e) {
+                    window.alert('访问剪切板失败，试试直接复制吧')
+                    e.clearSelection();
+            });
+            },
+            create(){
+                this.show = 1;
+            },
+            home(){
+                this.show = 0;
+            },
+        }
+    });
+</script>
