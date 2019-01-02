@@ -167,9 +167,9 @@
             getQr(){
                 var url = this.urlPath;
                 if(this.$route.query.string != null && this.$route.query.string != ''){
-                    url += "/?string=" + this.$route.query.string
+                    url += "?string=" + this.$route.query.string
                 } else if(this.$route.query.url != null && this.$route.query.url != ''){
-                    url += "/?url=" + this.$route.query.url
+                    url += "?url=" + this.$route.query.url
                 }
                 var qrcode = new QRCode(document.getElementById("qrcode"), {
                     text: url,
