@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MD5</title>
+    <script type="text/javascript" src="./js/md5.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+</head>
+<body>
+<div id="app">
+    <input v-model="message" placeholder="content"><br>
+    <input v-model="key" placeholder="salt"><br>
+    <span>{{ value }}</span>
+</div>
+</body>
+
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            message: '',
+            key:'',
+            value:''
+        },
+        mounted(){
+            // this.value = hex_hmac_md5(this.key,this.message)
+            // this.value = hex_md5(this.message)
+        },
+        methods: {
+            getAnswer: function () {
+
+            }
+        },
+        watch: {
+            // 如果 `message` 发生改变，这个函数就会运行
+            message: function (n, o) {
+                if(this.key.length > 0){
+                    this.value = hex_hmac_md5(this.key,this.message)
+                }else{
+                    this.value = hex_md5(this.message)
+                }
+
+
+            },
+            key: function (n, o) {
+                if(this.key.length > 0){
+                    this.value = hex_hmac_md5(this.key,this.message)
+                }else{
+                    this.value = hex_md5(this.message)
+                }
+            }
+        }
+
+    })
+</script>
+
+</html>
