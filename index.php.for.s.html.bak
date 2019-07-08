@@ -1,0 +1,91 @@
+<?php
+
+
+//跨域
+ header("Access-Control-Allow-Origin: *");
+ header('Content-type:text/json');
+$db = mysqli_connect("ip","user","password","table");
+
+    
+if(mysqli_connect_errno($db)) {
+    return;
+}
+else{
+    if(isset($_REQUEST['*'])&& $_REQUEST['*'] == '*'){
+        if(isset($_REQUEST['url']) && isset($_REQUEST['content'])){
+            $url = $_REQUEST['url'];
+            $content = $_REQUEST['content'];
+            if($url != '' && $content != ''){
+                $sql = "replace into url_relation (url_key,url_value) values ('$url','$content');";
+                if($result = mysqli_query($db,$sql)){
+                    $jsonstr = [
+                        'code' => 0,
+                        'content' => ''
+                    ];
+                    echo json_encode($jsonstr);
+                }
+                mysql_free_result($result);
+                return;
+            }
+            // $sql = "replace into url_relation (url_key,url_value) values ('" . $url ."','" . $content . "');";
+            $jsonstr = [
+                'code' => -1,
+                'content' => ''
+            ];
+            echo json_encode($jsonstr);
+            mysql_free_result($result);
+        }
+        return;
+    }
+    if(isset($_REQUEST['url'])){
+        $url = ($_REQUEST['url']);
+    }else{
+        $jsonstr = [
+            'code' => -1,
+            'content' => ''
+        ];
+        echo json_encode($jsonstr);
+        return;
+    }
+    $sql = "select * from url_relation where url_key like '" . $url . "';";
+    $result=mysqli_query($db,$sql);
+    if($result->num_rows != 0){
+        $jsonstr = [
+            'code' => 0,
+            'content' => mysqli_fetch_row($result)[1]
+        ];
+        echo json_encode($jsonstr);
+        // print_r(mysqli_fetch_row($result)[1]);
+        mysqli_free_result($result);
+        return;
+    }else{
+        $jsonstr = [
+            'code' => -1,
+            'content' => ''
+        ];
+        echo json_encode($jsonstr);
+        mysqli_free_result($result);
+        return;
+    }
+}
+
+
+mysqli_close($db);
+//phpinfo();
+
+//printf();
+//print_r($db->query($sql));
+
+?>
+
+<!-- 删除页面水印
+<html>
+    <head>
+        <script src="/jquery.min.js"></script>
+        <script>
+            $("div:last").remove();
+        </script>
+    </head>
+       
+</html>
+-->
