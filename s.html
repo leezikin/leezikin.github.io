@@ -77,7 +77,7 @@
     }
     
     .content{
-        margin: 100px auto;
+        margin: 100px auto 0px;
         padding: 10px;
         width: 80%;
 
@@ -268,12 +268,27 @@
                             content: this.l
                         }}).then((res)=>{
                             if(res.data.code == 0){
+                                this.changeQr()
                                 window.alert("成功😘")
                             }else{
                                 window.alert("失败😢")
                             }
                         })
                 }
+            },
+            changeQr(){
+                var url = this.urlPath;
+                //避免Qr过于复杂
+                url += "?key=" + this.u
+                document.getElementById("qrcode").innerHTML=''
+                    var qrcode = new QRCode(document.getElementById("qrcode"), {
+                    text: url,
+                    width: 128,
+                    height: 128,
+                    colorDark : "#000000",
+                    colorLight : "#ffffff",
+                    correctLevel : QRCode.CorrectLevel.H
+                });
             }
         }
     });
