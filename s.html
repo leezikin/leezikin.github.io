@@ -41,7 +41,7 @@
             <div class="create-button" @click="create">生成</div>
         </div>
     </div>
-    <div class="footer" @click="author">2017-2019  <span class="author">&copy;Leezikin</span></div>
+    <div class="footer" v-show="show == 0" @click="author">2017-2019  <span class="author">&copy;Leezikin</span></div>
 </div>
 
 </body>
@@ -83,7 +83,7 @@
 
     }
     .split{
-        width:65%;
+        width:75%;
         height: 1px;
         background-color: #515a6e;
         margin: auto;
@@ -124,7 +124,7 @@
 
     .input-plane{
         position: relative;
-        width: 50%;
+        width: 70%;
         margin: 20px auto;
     }
     .clear-btn{
