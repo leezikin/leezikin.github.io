@@ -1,4 +1,3 @@
-
 <html>
 <head>
     <meta charset="utf-8">
@@ -31,7 +30,7 @@
                 <span class="clear-btn" @click="clear">x</span>
             </div>
             <div class="input-plane">
-                <input id="u" spellcheck="false" v-model="u" type="text" placeholder='' class="input" required>
+                <input id="u" spellcheck="false" v-model.trim="u" type="text" placeholder='' class="input" required>
                 <span class="clear-btn" @click="clear">x</span>
             </div>
             <div class="input-plane">
@@ -256,8 +255,16 @@
             author(){
                 window.location.href="https://github.com/leezikin";
             },
-            clear(event){
+            clear(){
                 event.target.previousElementSibling.value = ""
+                id = event.target.previousElementSibling.id
+                if(id == "p") {
+                    this.p = ""
+                }else if(id == "u"){
+                    this.u = ""
+                }else if(id == "l"){
+                    this.l = ""
+                }
             },
             create(){
                 if(this.p!='' && this.u != '' && this.l != ''){
